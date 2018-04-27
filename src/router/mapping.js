@@ -68,6 +68,18 @@ export default [
         }
     },
     {
+        name:'测试页面',
+        path:'/ceshi',
+        meta: {
+            requireAuth: true
+        },
+        component:resolve => {
+            require.ensure(['../components/ceshi/ceshi.vue'], () => {
+                resolve(require('../components/ceshi/ceshi.vue'));
+            });
+        }
+    },
+    {
         name:'问答详情页面',
         path:'/ask-detail',
         meta: {

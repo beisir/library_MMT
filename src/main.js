@@ -11,6 +11,10 @@ import Header from './components/Header.vue';
 import SearchList from './components/SearchList.vue';
 
 
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
+Vue.use(MuseUI)
+
 import UTils from './common/util.js';
 import 'mint-ui/lib/style.css';
 import 'swiper/dist/css/swiper.css'

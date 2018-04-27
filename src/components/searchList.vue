@@ -1,8 +1,8 @@
 <template lang="html">
-        <div class="spareProList">
+        <div class="spareProList" style="position: relative;padding-bottom:1.5rem;">
             <!--  -->
             <ul>
-                <li v-for="item in searchList" :key="item.id">
+                <li v-for="(item, index) in searchList" :key="index">
                     <div class="proImgCon">
                         <a href="#">
                             <img class="proImg" :src="item.name">
@@ -14,9 +14,15 @@
                     <p class="price" v-html="number(item.productInfo.price)"></p>
                 </li>
             </ul>
-        <div v-show="loading" class="page-infinite-loading">
-            <mt-spinner type="snake"></mt-spinner>正在加载...
-        </div>
+          <div v-if="loading && !ispullup" class="page-infinite-loading">
+              <mt-spinner type="snake"></mt-spinner>正在加载...
+          </div>
+          <div v-else-if="ispullup" class="page-infinite-loading">
+              暂无数据
+          </div>
+          <div v-else class="page-infinite-loading">
+              下拉加载
+          </div>
     </div>
 
 </template>
@@ -29,8 +35,8 @@ export default {
             type: Array,
             default: []
         },
-        pageNo: {
-            type: Number
+        ispullup: {
+            type: Boolean
         },
         loading: {
             type: Boolean
@@ -49,8 +55,8 @@ export default {
             //
         },
         loadMore (options) {
-            this.loading = true;
-            this.$emit('pageEvent')
+            // this.loading = true;
+            // this.$emit('pageEvent')
         },
         forEvent (options) {
             console.log(options);
@@ -58,3 +64,9 @@ export default {
     }
 }
 </script>
+<style media="screen">
+.page-infinite-loading{position: absolute;
+bottom: 1rem;
+z-index: 200000000000;
+left: 38%;}
+</style>

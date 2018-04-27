@@ -1,9 +1,13 @@
 module.exports = {
     app: {
         weixin: `https://testwx.hc360.com/mobileapp/transfer/proLogin`
+        //
     },
     index_page: {
-        prodbytime: `http://wsprod.hc360.com/get/prodbytime?pageSize=10&pageNo=`,
+      // prodbytime: `http://wsprod.hc360.com/get/prodbytime?pageSize=10&pageNo=`,
+      // prodbytime: `../manager/index?pageSize=10&pageNo=`
+      prodbytime: 'http://localhost:8088/static/json/index.json'
+        // prodbytime: `../manager/index`,
     },
     search: {
         historical: 'https://www.easy-mock.com/mock/5add78830f34ce6a67b6b97b/search'

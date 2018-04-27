@@ -2,8 +2,10 @@
     <div class="">
         <Header />
         <!-- <header class="mHeaderBox"><a href="#" class="arrowLeft"></a><h3>工业品库</h3></header> -->
-        <router-view />
-        <div class="indexBotFixed">
+        <transition name="component-fade" mode="out-in">
+          <router-view />
+        </transition>
+        <div class="indexBotFixed" style="z-index:100000000">
         	<ul>
                 <router-link
                     v-for="(item, index) in routerLink"
@@ -44,4 +46,10 @@ export default {
 </script>
 
 <style lang="css">
+.component-fade-enter-active, .component-fade-leave-active {
+    transition: opacity .3s ;
+}
+.component-fade-enter, .component-fade-leave-to{
+    opacity: 0;
+}
 </style>

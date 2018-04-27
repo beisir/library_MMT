@@ -54,13 +54,13 @@
             <div class="box1Tit"><h2>大家都在看</h2></div>
             <SearchList
                 v-infinite-scroll="loadMore"
-                infinite-scroll-distance="30"
-                infinite-scroll-disabled="loading"
+                infinite-scroll-distance="10"
+                infinite-scroll-disabled="ispullup"
                 infinite-scroll-immediate-check="true"
                 :searchList="searchList"
-                :pageNo="pageNo"
                 :loading="loading"
-                @pageEvent="pageEvent" />
+                :ispullup="ispullup"
+                />
                 <!-- infinite-scroll-listen-for-event="forEvent" -->
 
         </div>
@@ -122,7 +122,8 @@ export default {
               ],
             searchList: [],
             pageNo: 1,
-            loading: false
+            loading: false,
+            ispullup: false
         }
     },
     computed: {
@@ -134,33 +135,36 @@ export default {
         getSearchList (pageNo = 1) {
             const _this = this;
             let searchList = _this.searchList;
-            _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
+            console.log(pageNo)
+            _this.loading = true;
+            // _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
+            _this.$ajax('get', index_page.prodbytime + '?a='+ pageNo).then(options => {
                 if (options.content.length) {
                     _this.loading = false;
                     _this.searchList = searchList.concat(options.content);
-                    _this.loading = true;
                 } else {
-                    _this.ispage = false;
                     _this.pageNo = options.number;
+                    _this.ispullup = true;
                     _this.$toast('没有更多数据...');
-                    _this.loading = false;
                 }
             });
         },
         loadMore (options) {
+          this.pageNo = this.pageNo + 1;
+          this.getSearchList(this.pageNo)
             console.log(options)
         },
         searchPage () {
             this.$router.push({
                 path: '/search'
             });
-        },
-        pageEvent (num) {
-            if (!this.loading){
-                this.pageNo = this.pageNo + 1;
-                this.getSearchList(this.pageNo);
-            }
         }
+        // pageEvent (num) {
+        //     if (!this.loading){
+        //         this.pageNo = this.pageNo + 1;
+        //         this.getSearchList(this.pageNo);
+        //     }
+        // }
     },
     created () {
         this.getSearchList();

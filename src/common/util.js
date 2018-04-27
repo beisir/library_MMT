@@ -11,10 +11,10 @@ axios.defaults.withCredentials = true
  */
 const http = (type, url, data = {},config={}) => {
     return new Promise((resolve,reject) => {
-        // Indicator.open({
-        //     text: '加载中...',
-        //     spinnerType: 'fading-circle'
-        // });
+        Indicator.open({
+            text: '加载中...',
+            spinnerType: 'fading-circle'
+        });
         axios[type](url,data,config).then(response =>{
             // Indicator.close();
             resolve(response.data);
