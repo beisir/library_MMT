@@ -284,7 +284,7 @@ export default [
         }
     },
     {
-        name:'搜索列表商机列表',
+        name:'search-list',
         path:'/search-list',
         meta: {
             requireAuth: true
