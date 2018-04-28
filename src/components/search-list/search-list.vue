@@ -1,16 +1,26 @@
 <template lang="html">
     <div class="">
-        <header class="mHeaderBox"><a href="#" class="arrowLeft"></a><h3>五金工具</h3></header>
+        <Header title="五金工具" />
         <div class="topSearch">
-          <div class="searchCon"><input class="phcolor" type="text" placeholder="请输入商品关键字" /></div>
+            <div class="searchCon">
+                <input
+                    class="phcolor"
+                    type="text"
+                    v-model="keyword"
+                    @keyup.enter="enterEvent(keyword)"
+                    placeholder="请输入商品关键字" />
+            </div>
         </div>
         <div class="box1">
-          <SearchList :searchList="search_list" />
-          <div class="more">
-            <div class="lineBot">
-              <p class="textBot">没有更多了</p>
-            </div>
-          </div>
+            <SearchList
+                v-infinite-scroll="loadMore"
+                infinite-scroll-distance="10"
+                infinite-scroll-disabled="ispullup"
+                infinite-scroll-immediate-check="true"
+                :searchList="searchList"
+                :loading="loading"
+                :ispullup="ispullup"
+                />
         </div>
     </div>
 </template>
@@ -21,61 +31,90 @@ export default {
     data () {
         return {
             keyword: '',
-            search_list: [],
+            searchList: [],
             pageNo: 1,
             isPullDown: false,
             ispath: '',
             prodbycat_path: '',
             prodbytitle_path: '',
             prodbysupid_path: '',
-            loadingTxt: 'drop'
+            pageNo: 1,
+            loading: false,
+            ispullup: false
         }
     },
     created () {
-        // let params = this.$route.params;
-        // let pageNo = _thi.pageNo,
-        //         url = '',
-        //         ispath = '',
-        //         prodbycat_path = '',
-        //         prodbytitle_path = '',
-        //         prodbysupid_path = '';
-        //     if (supcatid) {
-        //         ispath = 'prodbysupid';
-        //         prodbysupid_path = `${search_listPath.prodbysupid}&supid=${supcatid}&pageNo=`
-        //         url = `${prodbysupid_path}${pageNo}`
-        //     } else if (bcid) {
-        //         ispath = 'prodbycat';
-        //         prodbycat_path = `${search_listPath.prodbycat}&catid=${'100000000'}&pageNo=`
-        //         url = `${prodbycat_path}${pageNo}`;
-        //     } else {
-        //         ispath = 'prodbytitle';
-        //         prodbytitle_path = `${search_listPath.prodbytitle}&`
-        //         url = `${prodbytitle_path}title=${encodeURIComponent(key)}&pageNo=${pageNo}`;
-        //     };
-        //         this.keyword = key || '';
-        //         this.ispath = ispath;
-        //         this.prodbycat_path = prodbycat_path;
-        //         this.prodbytitle_path = prodbytitle_path;
-        //         this.prodbysupid_path = prodbysupid_path;
-        //
-        //     this.getSearchList(url);
+        this.judgmentPath(this.$route.params);
     },
-    getSearchList (params) {
-        const _this = this;
-        _this.loadingTxt = 'load';
-        this.$ajax(params).then(result => {
-            if (result.content.length){
-                let search_list = this.search_list;
-                _this.search_list = search_list.concat(result.content);
-                _this.pageNo = result.number;
-                _this.loadingTxt = 'drop';
+    methods: {
+        enterEvent (val) {
+            if (val !== '') {
+                this.pageNo = 1;
+                this.ispullup = false;
+                this.searchList = [];
+                this.judgmentPath({key: val});
             } else {
-                _this.loadingTxt = 'more'
-                _this.$toast('暂无数据');
-            };
-        });
-    }
+                this.$toast('请输入商品关键字');
+            }
+        },
+        judgmentPath ({supcatid, bcid, key}) {
+            let pageNo = this.pageNo,
+                url = '',
+                ispath = '',
+                prodbycat_path = '',
+                prodbytitle_path = '',
+                prodbysupid_path = '';
 
+                if (supcatid) {
+                    ispath = 'prodbysupid';
+                    prodbysupid_path = `${search_listPath.prodbysupid}&supid=${supcatid}&pageNo=`
+                    url = `${prodbysupid_path}${pageNo}`
+                } else if (bcid) {
+                    ispath = 'prodbycat';
+                    prodbycat_path = `${search_listPath.prodbycat}&catid=${'100000000'}&pageNo=`
+                    url = `${prodbycat_path}${pageNo}`;
+                } else {
+                    ispath = 'prodbytitle';
+                    prodbytitle_path = `${search_listPath.prodbytitle}&`
+                    url = `${prodbytitle_path}title=${encodeURIComponent(key)}&pageNo=${pageNo}`;
+                };
+
+                this.keyword = key || '';
+                this.ispath = ispath;
+                this.prodbycat_path = prodbycat_path;
+                this.prodbytitle_path = prodbytitle_path;
+                this.prodbysupid_path = prodbysupid_path;
+                this.getSearchList(url);
+        },
+        getSearchList (params) {
+            const _this = this;
+            _this.loading = true;
+            this.$ajax('get', params).then(result => {
+                if (result.content.length){
+                    let searchList = _this.searchList;
+                    _this.searchList = searchList.concat(result.content);
+                    _this.loading = false;
+                } else {
+                    _this.ispullup = true;
+                    _this.pageNo = result.number;
+                    _this.$toast('暂无数据');
+                };
+            });
+        },
+        loadMore (options) {
+            let { keyword, pageNo, ispath, prodbycat_path, prodbytitle_path, prodbysupid_path } = this;
+            let url = '';
+            this.pageNo = this.pageNo + 1;
+            if (ispath === 'prodbytitle') {  // 搜索接口
+                url = `${prodbytitle_path}title=${encodeURIComponent(keyword)}&pageNo=${this.pageNo}`;
+            } else if (ispath === 'prodbycat') {    // bcid接口
+                url = `${prodbycat_path}${this.pageNo}`
+            } else if (ispath === 'prodbysupid') {
+                url = `${prodbysupid_path}${this.pageNo}`
+            }
+            this.getSearchList(url);
+        }
+    }
 }
 </script>
 

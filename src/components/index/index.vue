@@ -50,7 +50,7 @@
             </div>
         </div> -->
 
-        <div class="box1">
+        <div class="box1" style="padding-bottom: 1rem;">
             <div class="box1Tit"><h2>大家都在看</h2></div>
             <SearchList
                 v-infinite-scroll="loadMore"
@@ -92,17 +92,20 @@ export default {
                     console.log(swiper);
                 }
             },
-            swiperImgList: [{
-                path: 'indexOf',
-                src: 'https://style.org.hc360.com/images/cpk/bImg1.png'
-            }, {
-                path: 'asdasdas',
-                src: 'https://style.org.hc360.com/images/cpk/cpkIndexIco.png'
+            swiperImgList: [
+                {
+                    path: 'indexOf',
+                    src: 'http://192.168.120.32/images/cpk/bImg1.png'
+                }, {
+                    path: 'asdasdas',
+                    src: 'http://192.168.120.32/images/cpk/cpkIndexIco.png'
                 }, {
                     path: 'asdkxxx',
-                    src: 'https://style.org.hc360.com/images/cpk/bImg1.png'
-                }],
-                navTitle: [{
+                    src: 'http://192.168.120.32/images/cpk/bImg1.png'
+                }
+            ],
+            navTitle: [
+                {
                     icon: 'ico1',
                     text: '装修建材',
                     path: ''
@@ -119,7 +122,7 @@ export default {
                     text: '管材管件',
                     path: ''
                 }
-              ],
+            ],
             searchList: [],
             pageNo: 1,
             loading: false,
@@ -135,10 +138,9 @@ export default {
         getSearchList (pageNo = 1) {
             const _this = this;
             let searchList = _this.searchList;
-            console.log(pageNo)
             _this.loading = true;
             // _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
-            _this.$ajax('get', index_page.prodbytime + '?a='+ pageNo).then(options => {
+            _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
                 if (options.content.length) {
                     _this.loading = false;
                     _this.searchList = searchList.concat(options.content);
@@ -152,19 +154,12 @@ export default {
         loadMore (options) {
           this.pageNo = this.pageNo + 1;
           this.getSearchList(this.pageNo)
-            console.log(options)
         },
         searchPage () {
             this.$router.push({
                 path: '/search'
             });
         }
-        // pageEvent (num) {
-        //     if (!this.loading){
-        //         this.pageNo = this.pageNo + 1;
-        //         this.getSearchList(this.pageNo);
-        //     }
-        // }
     },
     created () {
         this.getSearchList();

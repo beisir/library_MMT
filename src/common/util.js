@@ -16,7 +16,7 @@ const http = (type, url, data = {},config={}) => {
             spinnerType: 'fading-circle'
         });
         axios[type](url,data,config).then(response =>{
-            // Indicator.close();
+            Indicator.close();
             resolve(response.data);
         }, err =>{
             // Indicator.close();

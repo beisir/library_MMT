@@ -4,9 +4,8 @@ module.exports = {
         //
     },
     index_page: {
-      // prodbytime: `http://wsprod.hc360.com/get/prodbytime?pageSize=10&pageNo=`,
-      // prodbytime: `../manager/index?pageSize=10&pageNo=`
-      prodbytime: 'http://localhost:8088/static/json/index.json'
+      prodbytime: `http://wsprod.hc360.com/get/prodbytime?pageSize=10&pageNo=`
+      // prodbytime: 'http://localhost:8088/static/json/index.json'
         // prodbytime: `../manager/index`,
     },
     search: {

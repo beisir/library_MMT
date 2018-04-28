@@ -140,7 +140,7 @@ export default [
         }
     },
     {
-        name:'详情页',
+        name:'detail',
         path:'/detail',
         meta: {
             requireAuth: true

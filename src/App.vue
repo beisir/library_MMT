@@ -29,8 +29,8 @@ export default {
 </script>
 
 <style>
-/* @import 'https://style.org.hc360.com/css/cpk/cpkStyle.css'; */
-@import './cpkStyle.css';
+@import 'http://192.168.120.32/css/cpk/cpkStyle.css';
+/* @import './cpkStyle.css'; */
 
 .mint-toast * {
     font-size: 0.26rem !important;
