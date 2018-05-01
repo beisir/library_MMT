@@ -1,8 +1,11 @@
 <template>
     <div id="app">
-        <transition :name="transitionName">
+        <!-- <transition name="component-fade" mode="out-in">
             <router-view/>
-        </transition>
+        </transition> -->
+        <transition :name="transitionName">
+            <router-view class="Router" />
+　　　　</transition>
     </div>
 </template>
 
@@ -29,24 +32,23 @@ export default {
 </script>
 
 <style>
-@import 'http://192.168.120.32/css/cpk/cpkStyle.css';
+/* @import 'http://192.168.120.32/css/cpk/cpkStyle.css'; */
 /* @import './cpkStyle.css'; */
-
-.mint-toast * {
-    font-size: 0.26rem !important;
-    width: 5rem !important;
-    padding: 0.15rem 0.2rem !important;
+@import './assets/css/cpkStyle.css';
+.component-fade-enter-active, .component-fade-leave-active {
+    transition: opacity .3s ;
+}
+.component-fade-enter, .component-fade-leave-to{
+    opacity: 0;
 }
 
 .Router {
-    position: absolute;
     width: 100%;
-    transition: all .8s ease;
-    top: 40px;
+    transition: all .6s ease;
 }
 
 .slide-left-enter,
-.slide-right-leave-active {
+ .slide-right-leave-active {
     opacity: 0;
     -webkit-transform: translate(100%, 0);
     transform: translate(100%, 0);
@@ -58,4 +60,6 @@ export default {
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100% 0);
 }
+</style>
+
 </style>

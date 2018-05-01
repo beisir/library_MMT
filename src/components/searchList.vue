@@ -7,7 +7,7 @@
                 :key="item.id" tag="li">
                 <div class="proImgCon">
                     <a href="javascript:;">
-                        <img class="proImg" :src="item.name">
+                        <img class="proImg" v-lazy="item.name">
                     </a>
                 </div>
                 <p class="protil">

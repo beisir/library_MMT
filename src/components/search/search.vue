@@ -12,13 +12,13 @@
             <button type="button" class="cancelBtn">取消</button>
         </div>
 
-        <div class="seaHistory">
+        <div class="seaHistory" v-if="histor_word.length">
             <h3>历史搜索</h3>
-                <div class="seaHistoryCon">
-                <a href="#">螺栓</a>
-                <a href="#">螺母</a>
-                <a href="#">螺栓</a>
-                <a href="#">螺母</a>
+            <div class="seaHistoryCon">
+                <router-link
+                    v-for="historItem in histor_word"
+                    :key="historItem"
+                    :to="{ name: 'search-list', params: {key: historItem} }">{{historItem}}</router-link>
             </div>
         </div>
     </div>
@@ -28,16 +28,33 @@
 export default {
     data () {
         return {
-            key_word: ''
+            key_word: '',
+            histor_word: []
         }
     },
+    created () {
+        let histor_word = JSON.parse(localStorage.getItem('histor_word'));
+        this.histor_word = histor_word || [];
+    },
     methods: {
-        eventEnter (key_word) {
-            if (key_word !== '') {
+        eventEnter (val) {
+            if (val !== '') {
+                let histor_word = localStorage.getItem('histor_word');
+                if (histor_word === null){
+                    histor_word = [val];
+                } else {
+                    histor_word = JSON.parse(histor_word);
+                    histor_word.unshift(val);
+                    if (histor_word.length >= 10) {
+                        histor_word.length = 10;
+                    };
+                    histor_word = [...new Set(histor_word)];
+                };
+                localStorage.setItem('histor_word', JSON.stringify(histor_word));
                 this.$router.push({
                     name: 'search-list',
                     params: {
-                        key: key_word
+                        key: val
                     }
                 });
             } else {

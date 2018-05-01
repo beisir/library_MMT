@@ -14,18 +14,31 @@
 
         <!-- 轮播图功能 -->
         <div class="proImgBox">
-            <ul>
+            <mt-swipe
+                :defaultIndex="activeIndex"
+                :auto="4000"
+                :show-indicators="false"
+                @change="handleChange">
+                <mt-swipe-item
+                    v-for="swipeItem in prodimage"
+                    :key="swipeItem.id">
+                    <img v-lazy="swipeItem.name" />
+                </mt-swipe-item>
+            </mt-swipe>
+            <!-- <ul>
                 <li><img src="https://style.org.hc360.com/images/microMall/program/dImg1.png"></li>
-            </ul>
-            <div class="scrollIco">
-                <em class="cur"></em><em></em><em></em><em></em>
+            </ul> -->
+            <div class="scrollIco" v-if="prodimage.length > 1">
+                <em
+                    v-for="(imageItem, index) in prodimage"
+                    :class="{'cur': activeIndex === index}"></em>
             </div>
         </div>
 
         <!-- 商品详情标题价格等... -->
         <div class="proTit">
             <div class="proTitLeft">
-                <div class="proTitle">韩版 2018春新款女装韩版宽松连帽加厚套头加绒潮卫衣IG6431</div>
+                <div class="proTitle">{{prodinfo.name}}</div>
                 <div class="proPrice">
                     <span class="proPriceText">&yen;</span>3880.<span class="proPriceText">00</span>
                     <!-- c产品对比暂时不上 -->
@@ -35,7 +48,7 @@
             <button class="shareBox">分享</button>
         </div>
 
-        <div class="detailBox">
+        <!-- <div class="detailBox">
             <div class="detailTit">常固M20详细参数</div>
             <div class="parameterBoxCon">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -98,7 +111,28 @@
                     </tr>
                 </table>
             </div>
+        </div> -->
+
+        <div class='detailBox' v-if="Object.keys(prodatt).length">
+            <div class='detailTit'>常固M20详细参数</div>
+            <div class='parameterBoxCon'>
+                    <div class='parameterListCon'
+                        v-for="(item, key) in prodatt"
+                        :key="key">
+                        <div class='parameterLeft'><span>{{key}}</span></div>
+                        <div class='parameterRig'>
+                                <div class='parameterList'
+                                    v-for="childItem in item"
+                                    :key="childItem.id">
+                                    <span class='pLeft'>{{childItem.attName}}</span>
+                                    <span class='pRig'>{{childItem.attValue}}</span>
+                                </div>
+                        </div>
+                    </div>
+            </div>
         </div>
+
+
 
         <!-- 供应商报价 -->
         <!-- 本期不做 -->
@@ -234,20 +268,57 @@
         </div> -->
 
         <div class="detailBotFixed">
-            <a href="#" class="botTel">咨询</a>
-            <div class="collectionIco" style="display:none;">收藏</div>
-            <div class="collectionIcoCur">收藏</div>
-            <a href="#" class="botBtn1">下载铺货</a>
-            <a href="#" class="botBtn2">申请分销</a>
+            <a :href="'tel:' + phoneNum" class="botTel" style="width:30%;">咨询</a>
+            <!-- <div class="collectionIco" style="display:none;">收藏</div> -->
+            <!-- <div class="collectionIcoCur">收藏</div> -->
+            <!-- <a href="#" class="botBtn1">下载铺货</a> -->
+            <a href="javascript:;" class="botBtn2" style="width:70%;">申请分销</a>
         </div>
-        <a class="fixedBtnRig">5</a>
+        <!-- <a class="fixedBtnRig">5</a> -->
     </div>
 </template>
 
 <script>
+import { detail } from '../../common/config.js';
 export default {
+    data () {
+        return {
+            activeIndex: 0,
+            prodatt_arr: [],
+            prodatt: {},
+            prodimage: [],
+            prodinfo: {
+                price: 0
+            },
+            phoneNum: '010-xxxxxxxx',
+            applicationId: ''
+        }
+    },
+    methods: {
+        handleChange (index) {
+            this.activeIndex = index;
+            console.log(options)
+        }
+    },
+    created () {
+        const _this = this;
+        _this.$ajax('get', detail.prodinfo, {
+            params: {id: 1}
+        }).then(result => {
+            _this.prodatt_arr = Object.keys(result.prodatt);
+            _this.prodatt = result.prodatt;
+            _this.prodimage = result.prodimage;
+            _this.prodinfo = result.prodinfo;
+            _this.phoneNum = result.mfbo.tel;
+            _this.applicationId = result.mfbo.id;
+            _this.pcid = 1;
+        });
+    }
 }
 </script>
 
 <style lang="css">
+.proImgBox img{
+    width: 100%;
+}
 </style>

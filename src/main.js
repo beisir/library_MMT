@@ -6,10 +6,17 @@ import router from './router'
 import vueAwesomeSwiper from 'vue-awesome-swiper';
 
 // import 'mint-ui/lib/style.css'
-import {InfiniteScroll,Spinner,TabContainer, TabContainerItem,Toast} from 'mint-ui';
+import {
+    InfiniteScroll,
+    Spinner,
+    TabContainer,
+    TabContainerItem,
+    Toast,
+    Swipe,
+    SwipeItem,
+    Lazyload} from 'mint-ui';
 import Header from './components/Header.vue';
 import SearchList from './components/SearchList.vue';
-
 
 // import MuseUI from 'muse-ui'
 // import 'muse-ui/dist/muse-ui.css'
@@ -22,9 +29,14 @@ Vue.use(vueAwesomeSwiper);
 
 /* eslint-disable no-new */
 Vue.use(InfiniteScroll);
+Vue.use(Lazyload);
 Vue.component(Spinner.name, Spinner);
 Vue.component(Header.name, Header);
 Vue.component(SearchList.name, SearchList);
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
+
+
 Vue.prototype.$ajax = UTils.ajax;
 // / 全局注册提示信息的方法
 Vue.prototype.$toast = (mes, toastCallback) => {

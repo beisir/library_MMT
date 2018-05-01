@@ -13,18 +13,34 @@
 
         <div class="scroll">
             <div class="scrollCon">
-                <swiper :options="swiperOption" ref="mySwiper">
+                <mt-swipe
+                    :defaultIndex="activeIndex"
+                    :auto="4000"
+                    :show-indicators="false"
+                    @change="handleChange">
+                    <mt-swipe-item
+                        v-for="(swipeItem, swipeIndex) in swiperImgList"
+                        :key="swipeItem.path">
+                        <a :href="swipeItem.path" target="_blank">
+                            <img :src="swipeItem.src" />
+                        </a>
+                    </mt-swipe-item>
+                </mt-swipe>
+
+                <!-- <swiper :options="swiperOption" ref="mySwiper">
                     <swiper-slide
                         v-for="item in swiperImgList"
                         :key="item.path">
-                        <!-- <a href="javascript:;" target="_blank"> -->
+                        <a href="javascript:;" target="_blank">
                             <img class="scrollImg" :src="item.src" />
-                        <!-- </a> -->
+                        </a>
                     </swiper-slide>
-                </swiper>
-                <!-- <div class="scrollIco" style="z-index:10000">
-                    <em v-for="(actived, activedIndex) in swiperImgList" :class="activedIndex === 0? 'cur': ''"></em>
-                </div> -->
+                </swiper> -->
+                <div class="scrollIco" style="z-index:10000">
+                    <em
+                        v-for="(actived, activedIndex) in swiperImgList"
+                        :class="{'cur': activedIndex === activeIndex}"></em>
+                </div>
             </div>
 
         </div>
@@ -78,6 +94,7 @@ import { index_page } from '../../common/config.js';
 export default {
     data () {
         return {
+            activeIndex: 0,
             swiperOption: {
                 // notNextTick: true, // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
                 autoplay: 500,
@@ -94,14 +111,14 @@ export default {
             },
             swiperImgList: [
                 {
-                    path: 'indexOf',
-                    src: 'http://192.168.120.32/images/cpk/bImg1.png'
+                    path: '//www.hc360.com/zt/cpk/index-m.html',
+                    src: '//img.hb.aicdn.com/ebe8e04ea9fff0e46efcdfe1f7db2ed432f64b2113864-BVea0b_fw658'
                 }, {
-                    path: 'asdasdas',
-                    src: 'http://192.168.120.32/images/cpk/cpkIndexIco.png'
+                    path: '//m.hc360.com/supplyself/448122348.html',
+                    src: '//img.hb.aicdn.com/ebe8e04ea9fff0e46efcdfe1f7db2ed432f64b2113864-BVea0b_fw658'
                 }, {
-                    path: 'asdkxxx',
-                    src: 'http://192.168.120.32/images/cpk/bImg1.png'
+                    path: '//m.hc360.com/supplyself/448151108.html',
+                    src: '//img.hb.aicdn.com/ebe8e04ea9fff0e46efcdfe1f7db2ed432f64b2113864-BVea0b_fw658'
                 }
             ],
             navTitle: [
@@ -135,6 +152,9 @@ export default {
         }
     },
     methods: {
+        handleChange (index) {
+            this.activeIndex = index;
+        },
         getSearchList (pageNo = 1) {
             const _this = this;
             let searchList = _this.searchList;
@@ -174,6 +194,13 @@ export default {
 </script>
 
 <style lang="css">
+    .mint-swipe-item > a{
+        overflow: hidden;
+    }
+    .scrollCon img {
+        width: 100%;
+        height: 100%;
+    }
     .page-infinite-loading {
       /* margin-top:20px; */
       text-align: center;
