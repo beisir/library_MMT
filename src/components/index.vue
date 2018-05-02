@@ -9,7 +9,8 @@
         	<ul>
                 <router-link
                     v-for="(item, index) in routerLink"
-                    :class="activeIndex === index ? item.activeClass: item.routerClass"
+                    :class="item.routerClass"
+                    :active-class="item.activeClass"
                     :to="item.path"
                     :key="item.text"
                     @click.native="activeIndex = index"
@@ -34,17 +35,8 @@ export default {
                 activeClass: 'classLinkCur',
                 text: '分类',
                 path: '/app/class'
-            }/*, {
-                routerClass: 'manageLink',
-                activeClass: 'manageLinkCur',
-                text: '我的',
-                path: '/app/manage'
-            }*/]
+            }]
         }
     }
 }
 </script>
-
-<style lang="css">
-
-</style>

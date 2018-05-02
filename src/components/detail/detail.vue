@@ -45,94 +45,25 @@
                     <!-- <a href="#" class="contrast">对比</a><a href="#">产品说明书</a> -->
                 </div>
             </div>
-            <button class="shareBox">分享</button>
+            <button class="shareBox" @click="isShare=true" v-if="isShareHide">分享</button>
         </div>
 
-        <!-- <div class="detailBox">
+        <div class="detailBox">
             <div class="detailTit">常固M20详细参数</div>
             <div class="parameterBoxCon">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th rowspan="4" scope="row">主要参数</th>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th rowspan="4" scope="row">规格参数</th>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">机械性能</th>
-                        <td>
-                            <p class="pLeft">产品类型</p>
-                            <p class="pRig">地脚螺栓</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div> -->
-
-        <div class='detailBox' v-if="Object.keys(prodatt).length">
-            <div class='detailTit'>常固M20详细参数</div>
-            <div class='parameterBoxCon'>
-                    <div class='parameterListCon'
-                        v-for="(item, key) in prodatt"
-                        :key="key">
-                        <div class='parameterLeft'><span>{{key}}</span></div>
-                        <div class='parameterRig'>
-                                <div class='parameterList'
-                                    v-for="childItem in item"
-                                    :key="childItem.id">
-                                    <span class='pLeft'>{{childItem.attName}}</span>
-                                    <span class='pRig'>{{childItem.attValue}}</span>
-                                </div>
-                        </div>
+                <div class="parameterListCon" v-for="(prodattItem, prodattKey) in prodatt">
+                    <div class="parameterLeft"><h6>{{prodattKey}}</h6></div>
+                    <div class="parameterRig">
+                    	<ul>
+                        	<li  v-for="prodChildItem in prodattItem">
+                                <span class="pLeft">{{prodChildItem.attName}}</span>
+                                <span class="pRig">{{prodChildItem.attValue}}</span>
+                            </li>
+                        </ul>
                     </div>
+                </div>
             </div>
         </div>
-
-
 
         <!-- 供应商报价 -->
         <!-- 本期不做 -->
@@ -275,10 +206,12 @@
             <a href="javascript:;" class="botBtn2" style="width:70%;">申请分销</a>
         </div>
         <!-- <a class="fixedBtnRig">5</a> -->
+        <nativeShare :isShare="isShare" @closeShare="closeShare"></nativeShare>
     </div>
 </template>
 
 <script>
+import nativeShare from '../nativeShare.vue';
 import { detail } from '../../common/config.js';
 export default {
     data () {
@@ -291,13 +224,32 @@ export default {
                 price: 0
             },
             phoneNum: '010-xxxxxxxx',
-            applicationId: ''
+            applicationId: '',
+            isShare: false,
+            isShareHide: true
         }
     },
     methods: {
         handleChange (index) {
             this.activeIndex = index;
             console.log(options)
+        },
+        closeShare () {
+            this.isShare = false;
+        },
+        browserIdenty () {
+            var bLevel = {
+                    qq: {forbid: 0, lower: 1, higher: 2},
+                    uc: {forbid: 0, allow: 1}
+                },
+                useragent = navigator.userAgent.toLowerCase(),
+                isWeixin = useragent.indexOf('micromessenger') !== -1;
+            let UA = navigator.appVersion;
+            let isqqBrowser = (UA.split("MQQBrowser/").length > 1) ? bLevel.qq.higher : bLevel.qq.forbid;
+            let isucBrowser = (UA.split("UCBrowser/").length > 1) ? bLevel.uc.allow : bLevel.uc.forbid;
+            if((isqqBrowser && isqqBrowser>0) || (isucBrowser && isucBrowser>0) && (!isWeixin)){
+                this.isShareHide = true;
+            };
         }
     },
     created () {
@@ -313,6 +265,10 @@ export default {
             _this.applicationId = result.mfbo.id;
             _this.pcid = 1;
         });
+        // _this.browserIdenty();
+    },
+    components: {
+        nativeShare
     }
 }
 </script>

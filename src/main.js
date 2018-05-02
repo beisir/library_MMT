@@ -13,21 +13,12 @@ import {
     TabContainerItem,
     Toast,
     Swipe,
+    Popup,
     SwipeItem,
     Lazyload} from 'mint-ui';
 import Header from './components/Header.vue';
 import SearchList from './components/SearchList.vue';
 
-// import MuseUI from 'muse-ui'
-// import 'muse-ui/dist/muse-ui.css'
-// Vue.use(MuseUI)
-
-import UTils from './common/util.js';
-import 'mint-ui/lib/style.css';
-import 'swiper/dist/css/swiper.css'
-Vue.use(vueAwesomeSwiper);
-
-/* eslint-disable no-new */
 Vue.use(InfiniteScroll);
 Vue.use(Lazyload);
 Vue.component(Spinner.name, Spinner);
@@ -35,7 +26,9 @@ Vue.component(Header.name, Header);
 Vue.component(SearchList.name, SearchList);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Popup.name, Popup);
 
+import UTils from './common/util.js';
 
 Vue.prototype.$ajax = UTils.ajax;
 // / 全局注册提示信息的方法

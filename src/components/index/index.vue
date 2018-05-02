@@ -95,20 +95,6 @@ export default {
     data () {
         return {
             activeIndex: 0,
-            swiperOption: {
-                // notNextTick: true, // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
-                autoplay: 500,
-                // initialSlide: 1,
-                effect: 'cube',
-                loop: true,
-                pagination: '.swiper-pagination',
-                onSlideChangeEnd: swiper => {
-                    console.log('onSlideChangeEnd', swiper.realIndex)
-                },
-                onClick (swiper){
-                    console.log(swiper);
-                }
-            },
             swiperImgList: [
                 {
                     path: '//www.hc360.com/zt/cpk/index-m.html',
@@ -159,7 +145,6 @@ export default {
             const _this = this;
             let searchList = _this.searchList;
             _this.loading = true;
-            // _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
             _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
                 if (options.content.length) {
                     _this.loading = false;
@@ -183,12 +168,6 @@ export default {
     },
     created () {
         this.getSearchList();
-    },
-    mounted () {
-        // this.swiper.on('slideChangeEnd', function (options){
-        //     console.log(options);
-        // });
-        // console.log(this.swiper)
     }
 }
 </script>

@@ -2,7 +2,7 @@ export default [
     {
         name: '根',
         path: '/',
-        redirect:'/app',
+        redirect:'/app/index',
         hidden: true
     },
     {

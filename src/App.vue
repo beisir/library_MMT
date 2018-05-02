@@ -34,7 +34,7 @@ export default {
 <style>
 /* @import 'http://192.168.120.32/css/cpk/cpkStyle.css'; */
 /* @import './cpkStyle.css'; */
-@import './assets/css/cpkStyle.css';
+/* @import './assets/css/cpkStyle.css'; */
 .component-fade-enter-active, .component-fade-leave-active {
     transition: opacity .3s ;
 }
