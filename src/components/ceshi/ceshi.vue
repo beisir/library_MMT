@@ -1,12 +1,18 @@
 <template>
 <div class="demo-infinite-container">
-  <mu-list>
-    <template v-for="item in list">
-      <mu-list-item :title="item"/>
-      <mu-divider/>
-    </template>
-  </mu-list>
-  <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore"/>
+    <div>
+        <mt-popup
+            v-model="isShare"
+            :modal="true"
+            pop-transition="popup-fade"
+            closeOnClickModal="true"
+            position="bottom">
+            <div class="box">
+
+            </div>
+        </mt-popup>
+        <button type="button" name="button" @click="clickAFn">button</button>
+    </div>
 </div>
 </template>
 
@@ -18,6 +24,7 @@ export default {
       list.push('item' + (i + 1))
     }
     return {
+    isShare: false,
       list,
       num: 10,
       loading: false,
@@ -28,6 +35,9 @@ export default {
     this.scroller = this.$el
   },
   methods: {
+      clickAFn (){
+          this.isShare = true;
+      },
     loadMore () {
       this.loading = true
       setTimeout(() => {
@@ -43,11 +53,25 @@ export default {
 </script>
 
 <style lang="css">
-.demo-infinite-container{
-  width: 256px;
-  height: 300px;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  border: 1px solid #d9d9d9;
+.mint-popup {
+    width: 100%;
+}
+.v-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .5;
+    background: #000;
+}
+.mint-popup .box{
+    height: 500px;
+    width: 100%;
+    background-color: #ccc;
+}
+button {
+    position: fixed;
+    bottom: 0;
 }
 </style>

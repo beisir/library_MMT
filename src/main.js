@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import vueAwesomeSwiper from 'vue-awesome-swiper';
 
-// import 'mint-ui/lib/style.css'
+import 'mint-ui/lib/style.css'
 import {
     InfiniteScroll,
     Spinner,

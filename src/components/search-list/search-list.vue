@@ -14,13 +14,14 @@
         <div class="box1">
             <SearchList
                 v-infinite-scroll="loadMore"
-                infinite-scroll-distance="10"
+                infinite-scroll-distance="35"
                 infinite-scroll-disabled="ispullup"
                 infinite-scroll-immediate-check="true"
                 :searchList="searchList"
                 :loading="loading"
                 :ispullup="ispullup"
                 />
+             <div style="height:20px;wdith:100%;"></div> 
         </div>
     </div>
 </template>
@@ -58,6 +59,9 @@ export default {
             }
         },
         judgmentPath ({supcatid, bcid, key}) {
+            try {
+
+
             let pageNo = this.pageNo,
                 url = '',
                 ispath = '',
@@ -78,13 +82,15 @@ export default {
                     prodbytitle_path = `${search_listPath.prodbytitle}&`
                     url = `${prodbytitle_path}title=${encodeURIComponent(key)}&pageNo=${pageNo}`;
                 };
-
                 this.keyword = key || '';
                 this.ispath = ispath;
                 this.prodbycat_path = prodbycat_path;
                 this.prodbytitle_path = prodbytitle_path;
                 this.prodbysupid_path = prodbysupid_path;
                 this.getSearchList(url);
+            } catch (e) {
+                alert(e);
+            }
         },
         getSearchList (params) {
             const _this = this;

@@ -45,7 +45,7 @@
                     <!-- <a href="#" class="contrast">对比</a><a href="#">产品说明书</a> -->
                 </div>
             </div>
-            <button class="shareBox" @click="isShare=true" v-if="isShareHide">分享</button>
+            <button class="shareBox" @click="shareFn" v-if="isShareHide">分享</button>
         </div>
 
         <div class="detailBox">
@@ -217,7 +217,6 @@ export default {
     data () {
         return {
             activeIndex: 0,
-            prodatt_arr: [],
             prodatt: {},
             prodimage: [],
             prodinfo: {
@@ -234,8 +233,13 @@ export default {
             this.activeIndex = index;
             console.log(options)
         },
+        shareFn () {
+            this.isShare = true;
+            document.body.style.overflow = 'hidden';
+        },
         closeShare () {
             this.isShare = false;
+            document.body.style.overflow = '';
         },
         browserIdenty () {
             var bLevel = {
@@ -247,7 +251,7 @@ export default {
             let UA = navigator.appVersion;
             let isqqBrowser = (UA.split("MQQBrowser/").length > 1) ? bLevel.qq.higher : bLevel.qq.forbid;
             let isucBrowser = (UA.split("UCBrowser/").length > 1) ? bLevel.uc.allow : bLevel.uc.forbid;
-            if((isqqBrowser && isqqBrowser>0) || (isucBrowser && isucBrowser>0) && (!isWeixin)){
+            if((isqqBrowser && isqqBrowser > 0) || (isucBrowser && isucBrowser > 0) && (!isWeixin)){
                 this.isShareHide = true;
             };
         }
@@ -256,13 +260,12 @@ export default {
         const _this = this;
         _this.$ajax('get', detail.prodinfo, {
             params: {id: 1}
-        }).then(result => {
-            _this.prodatt_arr = Object.keys(result.prodatt);
-            _this.prodatt = result.prodatt;
-            _this.prodimage = result.prodimage;
-            _this.prodinfo = result.prodinfo;
-            _this.phoneNum = result.mfbo.tel;
-            _this.applicationId = result.mfbo.id;
+        }).then(({prodatt, prodimage, prodinfo, mfbo}) => {
+            _this.prodatt = prodatt || {};
+            _this.prodimage = prodimage || [];
+            _this.prodinfo = prodinfo || {};
+            _this.phoneNum = (mfbo && mfbo.tel) || '';
+            _this.applicationId = (mfbo && mfbo.id) || '';
             _this.pcid = 1;
         });
         // _this.browserIdenty();

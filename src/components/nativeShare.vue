@@ -2,11 +2,10 @@
     <div class="">
         <mt-popup
             v-model="isShare"
-            :modal="false"
             pop-transition="popup-fade"
-            :closeOnClickModal="true"
+            :closeOnClickModal="false"
             position="bottom">
-            <div class="shareBox2"><a class="closeBtn2" @click="closeShare">x</a></div>
+            <a class="closeBtn2" @click="closeShare">x</a>
             <div id="nativeShare"></div>
         </mt-popup>
 
@@ -44,33 +43,20 @@ export default {
 </script>
 
 <style lang="css">
-.mint-popup {
-    transition: .2s ease-out;
-}
-.mint-popup-bottom {
-    width: 100% !important;
-    height: 100% !important;
-    background: none !important;
-    bottom: 0 !important;
-    top: auto;
-    right: auto;
-    bottom: 0;
-    left: 50%;
+.mint-popup{
+    width: 100%;
 }
 #nativeShare .list {
-    width: 90%;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0.3rem 0;
+    position: fixed;
+    bottom: 0 !important;
+    left: 0;
+    z-index: 2004;
+    background: #fff;
     margin: 0 auto;
     text-align: center;
-}
-#nativeShare .list {
-    position: fixed;
-    height: auto !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    background: #fff;
-    left: 0;
-    padding: 0.3rem 0;
-    z-index: 2004;
 }
 .closeBtn2 {
     color: #ddd;
@@ -85,15 +71,5 @@ export default {
     border: 0.03rem solid #ddd;
     border-radius: 50%;
     z-index: 2005;
-}
-.shareBox2{
-    display:block;
-    position:fixed;
-    top:0;
-    height:100%;
-    left:0;
-    width:100%;
-    background: rgba(0,0,0,0.53);
-    z-index:2001;
 }
 </style>

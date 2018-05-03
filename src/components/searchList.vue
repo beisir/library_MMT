@@ -22,10 +22,9 @@
                 <p class="textBot">没有更多了</p>
             </div>
             <div class="page-infinite-loading" v-if="!ispullup && loading">
-                <mt-spinner type="snake"></mt-spinner>正在加载...
+                <mt-spinner type="snake"></mt-spinner><span>正在加载...</span>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -50,6 +49,9 @@ export default {
             let realVal = toFixedNum.substring(0, toFixedNum.toString().length - 1).split('.');
             return `&yen;<span class="allprice">${realVal[0]}.</span>${realVal[1]}`;
         }
+    },
+    mounted () {
+        // alert(this.ispullup)
     }
 }
 </script>
