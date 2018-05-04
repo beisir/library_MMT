@@ -1,9 +1,17 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Vuex from 'vuex';
+import routerConfig from './router';
+import vuexConfig from './store/store.js';
 import App from './App'
-import router from './router'
-import vueAwesomeSwiper from 'vue-awesome-swiper';
+// import vueAwesomeSwiper from 'vue-awesome-swiper';
+Vue.use(Router);
+Vue.use(Vuex);
+const router = routerConfig(Router);
+const store = vuexConfig(Vuex);
+
 
 import 'mint-ui/lib/style.css'
 import {
@@ -46,6 +54,7 @@ Vue.config.productionTip = false
 new Vue({
     el: '#app',
     router,
+    store,
     components: { App },
     template: '<App/>'
 });

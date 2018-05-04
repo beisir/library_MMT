@@ -79,7 +79,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '//wsprod.hc360.com',
+    assetsPublicPath: '//wsprod.hc360.com/mprod/',
 
     /**
      * Source Maps

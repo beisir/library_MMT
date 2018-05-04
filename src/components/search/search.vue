@@ -7,6 +7,7 @@
                     placeholder-class="phcolor"
                     type="text"
                     placeholder="请输入商品关键字"
+                    :autofocus="true"
                     v-model="key_word" @keyup.enter="eventEnter(key_word)"/>
             </div>
             <button type="button" class="cancelBtn">取消</button>

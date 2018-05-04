@@ -21,12 +21,13 @@
                 :loading="loading"
                 :ispullup="ispullup"
                 />
-             <div style="height:20px;wdith:100%;"></div> 
+             <div style="height:20px;wdith:100%;"></div>
         </div>
     </div>
 </template>
 
 <script>
+import {mapGetters, mapState, mapMutations} from 'vuex';
 import { search_listPath } from '../../common/config.js';
 export default {
     data () {
@@ -45,7 +46,18 @@ export default {
         }
     },
     created () {
-        this.judgmentPath(this.$route.params);
+        let params = this.$route.params;
+        if (Object.keys(params).length) {
+            this.updateParams(params);
+        } else {
+            params = this.searchListParams;
+            console.log(params);
+        };
+        this.judgmentPath(params);
+        // console.log(this.searchListParams)
+    },
+    computed:{
+        ...mapGetters(['searchListParams'])
     },
     methods: {
         enterEvent (val) {
@@ -54,14 +66,12 @@ export default {
                 this.ispullup = false;
                 this.searchList = [];
                 this.judgmentPath({key: val});
+                this.updateParams({key: val});
             } else {
                 this.$toast('请输入商品关键字');
             }
         },
         judgmentPath ({supcatid, bcid, key}) {
-            try {
-
-
             let pageNo = this.pageNo,
                 url = '',
                 ispath = '',
@@ -88,9 +98,6 @@ export default {
                 this.prodbytitle_path = prodbytitle_path;
                 this.prodbysupid_path = prodbysupid_path;
                 this.getSearchList(url);
-            } catch (e) {
-                alert(e);
-            }
         },
         getSearchList (params) {
             const _this = this;
@@ -119,7 +126,8 @@ export default {
                 url = `${prodbysupid_path}${this.pageNo}`
             }
             this.getSearchList(url);
-        }
+        },
+        ...mapMutations(['updateParams'])
     }
 }
 </script>
