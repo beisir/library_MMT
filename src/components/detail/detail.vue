@@ -42,7 +42,7 @@
                 <div class="proPrice">
                     <span class="proPriceText">&yen;</span>3880.<span class="proPriceText">00</span>
                     <!-- c产品对比暂时不上 -->
-                    <!-- <a href="#" class="contrast">对比</a><a href="#">产品说明书</a> -->
+                    <a href="javascript:;" class="contrast" @click="addContrast">对比</a>
                 </div>
             </div>
             <button class="shareBox" @click="shareFn" v-if="isShareHide">分享</button>
@@ -225,7 +225,9 @@ export default {
             phoneNum: '010-xxxxxxxx',
             applicationId: '',
             isShare: false,
-            isShareHide: true
+            isShareHide: true,
+            UUID: ''
+
         }
     },
     methods: {
@@ -254,12 +256,45 @@ export default {
             if((isqqBrowser && isqqBrowser > 0) || (isucBrowser && isucBrowser > 0) && (!isWeixin)){
                 this.isShareHide = true;
             };
-        }
+        },
+        /**
+         * [addContrast() ]
+         * [ps: 添加对比 ]
+         * [-------------------------------------------------]
+         */
+        addContrast () {
+            const _this = this;
+            let UUID = this.UUID
+            let { id, catId, supcatid } = this.prodinfo;
+            _this.$ajax('get',`${detail.addCompared}/${id}/${catId}/${supcatid}/${UUID}`).then(res => {
+                let prompt = ''
+                switch (res) {
+                    case 0: prompt = '添加失败,请重试'; break;
+                    case 1: prompt = '添加对比成功'; break;
+                    case 2: prompt = '已添加过,请勿重复添加'; break;
+                    case 3: prompt = '商机不存在'; break;
+                    case 4: prompt = '对比个数超限'; break;
+                    default : prompt = '添加失败';
+                };
+                _this.$toast({
+                    message: prompt,
+                    iconClass: res === 1 ? 'icon icon-success' : ''
+                    // success () {
+                    //     res === 1 && setTimeout(() => {
+                    //         _this.contrastNum(catId, id);
+                    //     }, 1000);
+                    // }
+                });
+            });
+        },
+
     },
     created () {
+        let {id } = this.$route.params;
+        this.UUID = window.localStorage.getItem('UUID');
         const _this = this;
         _this.$ajax('get', detail.prodinfo, {
-            params: {id: 1}
+            params: {id: id}
         }).then(({prodatt, prodimage, prodinfo, mfbo}) => {
             _this.prodatt = prodatt || {};
             _this.prodimage = prodimage || [];

@@ -141,9 +141,9 @@ export default [
     },
     {
         name:'detail',
-        path:'/detail',
+        path:'/detail/:id',
         meta: {
-            requireAuth: true
+            requireAuth: false
         },
         component:resolve => {
             require.ensure(['../components/detail/detail.vue'], () => {
