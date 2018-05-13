@@ -42,7 +42,8 @@
                 <div class="proPrice">
                     <span class="proPriceText">&yen;</span>3880.<span class="proPriceText">00</span>
                     <!-- c产品对比暂时不上 -->
-                    <a href="javascript:;" class="contrast" @click="addContrast">对比</a>
+                    <a v-if="!isAdd" href="javascript:;" class="contrast" @click="addContrast">对比</a>
+                    <a v-else @click="removeContrast">取消对比</a>
                 </div>
             </div>
             <button class="shareBox" @click="shareFn" v-if="isShareHide">分享</button>
@@ -205,7 +206,12 @@
             <!-- <a href="#" class="botBtn1">下载铺货</a> -->
             <a href="javascript:;" class="botBtn2" style="width:70%;">申请分销</a>
         </div>
-        <!-- <a class="fixedBtnRig">5</a> -->
+        <router-link
+            class="fixedBtnRig"
+            :to="{ name: 'pro-contarst', params: {
+                'catid': prodinfo.catId
+            }}">{{ProdsNum}}</router-link>
+
         <nativeShare :isShare="isShare" @closeShare="closeShare"></nativeShare>
     </div>
 </template>
@@ -226,7 +232,9 @@ export default {
             applicationId: '',
             isShare: false,
             isShareHide: true,
-            UUID: ''
+            UUID: '',
+            ProdsNum: 'VS',
+            isAdd: true
 
         }
     },
@@ -279,12 +287,54 @@ export default {
                 _this.$toast({
                     message: prompt,
                     iconClass: res === 1 ? 'icon icon-success' : ''
-                    // success () {
-                    //     res === 1 && setTimeout(() => {
-                    //         _this.contrastNum(catId, id);
-                    //     }, 1000);
-                    // }
+                }, () => {
+                    res === 1 && setTimeout(() => {
+                        _this.contrastNum(catId, id);
+                    }, 1000);
                 });
+            });
+        },
+        /**
+         * [removeContrast() ]
+         * [ps: 取消对比 ]
+         * [-------------------------------------------------]
+         */
+        removeContrast () {
+            const _this = this;
+            let { id, catId } = this.prodinfo;
+            let UUID = this.UUID;
+            _this.$ajax('get', `${detail.deleteCompared}/${UUID}/${id}`).then(res => {
+                let cludes = res.includes('1');
+                _this.$toast({
+                    message: cludes ? '取消对比成功':'取消对比失败',
+                });
+                cludes && setTimeout(() => {
+                    _this.contrastNum(catId, id);
+                }, 1000);
+            });
+        },
+
+        /**
+         * [contrastNum() ]
+         * [ps: 过取对比个数 ]
+         * [-------------------------------------------------]
+         */
+        contrastNum(catId , id) {
+            const _this = this;
+            let UUID = this.UUID;
+            this.$ajax('get', detail.prodsNum, {
+                params: {
+                    catid: catId,
+                    openid: UUID
+                }
+            }).then(result => {
+                if (result){
+                    let isAdd = result.some(item => item.product_Id === Number(id));
+                    _this.ProdsNum = result.length;
+                    _this.isAdd = isAdd;
+                } else {
+                    _this.$toast('对比个数请求错误');
+                }
             });
         },
 
@@ -302,6 +352,8 @@ export default {
             _this.phoneNum = (mfbo && mfbo.tel) || '';
             _this.applicationId = (mfbo && mfbo.id) || '';
             _this.pcid = 1;
+            _this.contrastNum(prodinfo.catId, id);
+
         });
         // _this.browserIdenty();
     },

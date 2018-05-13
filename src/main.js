@@ -65,6 +65,10 @@ Vue.prototype.$toast = (mes, toastCallback) => {
             position: "middle",
             duration: 1500
         }, mes));
+        let timer = setTimeout(() => {
+            toastCallback && toastCallback();
+            clearTimeout(timer);
+        }, 1000)
     }
 
 };

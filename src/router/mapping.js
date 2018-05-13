@@ -128,7 +128,7 @@ export default [
         }
     },
     {
-        name:'对比结果页面vs',
+        name:'contrast-2',
         path:'/contrast-2',
         meta: {
             requireAuth: true
@@ -224,8 +224,8 @@ export default [
         }
     },
     {
-        name:'产品库添加对比商品',
-        path:'/pro-contarst',
+        name:'pro-contarst',
+        path:'/pro-contarst/:catid',
         meta: {
             requireAuth: true
         },
