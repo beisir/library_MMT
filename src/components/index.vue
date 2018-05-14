@@ -35,6 +35,11 @@ export default {
                 activeClass: 'classLinkCur',
                 text: '分类',
                 path: '/app/class'
+            }, {
+                routerClass: 'manageLink',
+                activeClass: 'manageLinkCur',
+                text: '我的',
+                path: '/app/manage'
             }]
         }
     }

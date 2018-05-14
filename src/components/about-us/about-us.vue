@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="">
-        <header class="mHeaderBox"><a href="#" class="arrowLeft"></a><h3>慧聪产品库介绍</h3></header>
+        <Header title="慧聪产品库介绍" />
         <div class="aboutUsBox">
           <div class="title">慧聪产品库介绍</div>
           <div class="aboutUsBoxCon">

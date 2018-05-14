@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="">
-        <Header title="五金工具" />
+        <Header title="分类" />
         <div class="topSearch">
             <div class="searchCon">
                 <input
@@ -40,6 +40,7 @@ export default {
             prodbycat_path: '',
             prodbytitle_path: '',
             prodbysupid_path: '',
+            byCatid_path: '',
             pageNo: 1,
             loading: false,
             ispullup: false
@@ -51,7 +52,6 @@ export default {
             this.updateParams(params);
         } else {
             params = this.searchListParams;
-            console.log(params);
         };
         this.judgmentPath(params);
         // console.log(this.searchListParams)
@@ -71,14 +71,14 @@ export default {
                 this.$toast('请输入商品关键字');
             }
         },
-        judgmentPath ({supcatid, bcid, key}) {
+        judgmentPath ({supcatid, bcid, key, catid}) {
             let pageNo = this.pageNo,
                 url = '',
                 ispath = '',
                 prodbycat_path = '',
                 prodbytitle_path = '',
-                prodbysupid_path = '';
-
+                prodbysupid_path = '',
+                byCatid_path = '';
                 if (supcatid) {
                     ispath = 'prodbysupid';
                     prodbysupid_path = `${search_listPath.prodbysupid}&supid=${supcatid}&pageNo=`
@@ -87,6 +87,10 @@ export default {
                     ispath = 'prodbycat';
                     prodbycat_path = `${search_listPath.prodbycat}&catid=${'100000000'}&pageNo=`
                     url = `${prodbycat_path}${pageNo}`;
+                } else if (catid) {
+                    ispath = 'catidpath';
+                    byCatid_path = `${search_listPath.byCatid}&catid=${catid}&pageNo=`
+                    url = `${byCatid_path}${pageNo}`;
                 } else {
                     ispath = 'prodbytitle';
                     prodbytitle_path = `${search_listPath.prodbytitle}&`
@@ -97,6 +101,7 @@ export default {
                 this.prodbycat_path = prodbycat_path;
                 this.prodbytitle_path = prodbytitle_path;
                 this.prodbysupid_path = prodbysupid_path;
+                this.byCatid_path = byCatid_path;
                 this.getSearchList(url);
         },
         getSearchList (params) {
@@ -115,13 +120,15 @@ export default {
             });
         },
         loadMore (options) {
-            let { keyword, pageNo, ispath, prodbycat_path, prodbytitle_path, prodbysupid_path } = this;
+            let { keyword, pageNo, ispath, prodbycat_path, prodbytitle_path, prodbysupid_path, byCatid_path} = this;
             let url = '';
             this.pageNo = this.pageNo + 1;
             if (ispath === 'prodbytitle') {  // 搜索接口
                 url = `${prodbytitle_path}title=${encodeURIComponent(keyword)}&pageNo=${this.pageNo}`;
             } else if (ispath === 'prodbycat') {    // bcid接口
                 url = `${prodbycat_path}${this.pageNo}`
+            } else if (ispath === 'catidpath') {
+                url = `${byCatid_path}${this.pageNo}`
             } else if (ispath === 'prodbysupid') {
                 url = `${prodbysupid_path}${this.pageNo}`
             }

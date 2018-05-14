@@ -20,7 +20,8 @@ module.exports = {
         distribut: `${hostname}/distribut/save`,
         addCompared: `${hostname}/addCompared`,  // 添加商品到对比库,
         prodsNum: `${hostname}/findComparedProdsNum`,
-        deleteCompared: `${hostname}/deleteComparedProd`
+        deleteCompared: `${hostname}/deleteComparedProd`,
+        ssohelper: 'http://mlogin.hc360.com/get/prod/ssohelper'
     },
     distribution: {
         getByOpenid: `${hostname}/distribut/getByOpenid`

@@ -56,7 +56,7 @@ export default [
         ]
     },
     {
-        name:'关于我们介绍页',
+        name:'about-us',
         path:'/about-us',
         meta: {
             requireAuth: true
@@ -152,7 +152,7 @@ export default [
         }
     },
     {
-        name:'产品库',
+        name:'distribution',
         path:'/distribution',
         meta: {
             requireAuth: true
@@ -224,8 +224,8 @@ export default [
         }
     },
     {
-        name:'pro-contarst',
-        path:'/pro-contarst/:catid',
+        name:'proContarst',
+        path:'/proContarst/:catid',
         meta: {
             requireAuth: true
         },
@@ -236,7 +236,7 @@ export default [
         }
     },
     {
-        name:'常见问题',
+        name:'problem',
         path:'/problem',
         meta: {
             requireAuth: true

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <!-- <transition name="component-fade" mode="out-in">
-            <router-view/>
+        <!-- <transition name="component-fade" mode="out-in"> -->
+        <!--     <router-view/>
         </transition> -->
         <transition :name="transitionName">
             <router-view class="Router" />
@@ -18,14 +18,14 @@ export default {
         }
     },
     watch: {
-　　　'$route' (to, from) {
-        let isBack = this.$router.isBack  //  监听路由变化时的状态为前进还是后退
+        '$route' (to, from) {
+            let isBack = this.$router.isBack  //  监听路由变化时的状态为前进还是后退
             if(isBack) {
-                this.transitionName = 'slide-right'
+                this.transitionName = 'slide-right';
             } else {
-                this.transitionName = 'slide-left'
-            }
-            this.$router.isBack = false
+                this.transitionName = 'slide-left';
+            };
+            this.$router.isBack = false;
         }
     }
 }
@@ -34,7 +34,7 @@ export default {
 <style>
 /* @import 'http://192.168.120.32/css/cpk/cpkStyle.css'; */
 /* @import './cpkStyle.css'; */
-@import './assets/css/cpkStyle.css';
+/* @import './assets/css/cpkStyle.css'; */
 .component-fade-enter-active, .component-fade-leave-active {
     transition: opacity .3s ;
 }
@@ -45,6 +45,9 @@ export default {
 .Router {
     width: 100%;
     transition: all .6s ease;
+    position: absolute;
+    width: 100%;
+    top: 0;
 }
 
 .slide-left-enter,
@@ -60,6 +63,4 @@ export default {
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100% 0);
 }
-</style>
-
 </style>

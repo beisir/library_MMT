@@ -82,20 +82,17 @@ export default {
                 obj[item.groupName] = {};
                 item.params.forEach((val, ind) => {
                    obj[item.groupName][val.name] = new Array(2);
-                   // console.log(val);
                 });
             });
-            console.log(obj);
             productWithAtt.forEach((attItem, attIndex) => {
                 attItem.attvalues.forEach((valItem, valIndex) => {
                     let keyItem = Object.keys(obj[valItem.attGroup]);
                     if (keyItem.indexOf(valItem.attName) === -1){
                         obj[valItem.attGroup][valItem.attName] = new Array(2);
                     };
-                   obj[valItem.attGroup][valItem.attName][attIndex] = valItem.attValue;
-                })
+                    obj[valItem.attGroup][valItem.attName][attIndex] = valItem.attValue;
+                });
             });
-
             this.vsObj = obj;
             this.paramsIndex = paramsIndex;
         },

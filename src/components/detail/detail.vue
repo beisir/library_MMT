@@ -49,7 +49,7 @@
             <button class="shareBox" @click="shareFn" v-if="isShareHide">分享</button>
         </div>
 
-        <div class="detailBox">
+        <div class="detailBox" v-if="Object.keys(prodatt).length">
             <div class="detailTit">常固M20详细参数</div>
             <div class="parameterBoxCon">
                 <div class="parameterListCon" v-for="(prodattItem, prodattKey) in prodatt">
@@ -204,14 +204,11 @@
             <!-- <div class="collectionIco" style="display:none;">收藏</div> -->
             <!-- <div class="collectionIcoCur">收藏</div> -->
             <!-- <a href="#" class="botBtn1">下载铺货</a> -->
-            <a href="javascript:;" class="botBtn2" style="width:70%;">申请分销</a>
+            <a href="javascript:;" class="botBtn2" style="width:70%;" @click="application">申请分销</a>
         </div>
         <router-link
             class="fixedBtnRig"
-            :to="{ name: 'pro-contarst', params: {
-                'catid': prodinfo.catId
-            }}">{{ProdsNum}}</router-link>
-
+            :to="{ name: 'proContarst', params: {catid: prodinfo.catId}}">{{ProdsNum}}</router-link>
         <nativeShare :isShare="isShare" @closeShare="closeShare"></nativeShare>
     </div>
 </template>
@@ -226,7 +223,8 @@ export default {
             prodatt: {},
             prodimage: [],
             prodinfo: {
-                price: 0
+                price: 0,
+                catId: 0
             },
             phoneNum: '010-xxxxxxxx',
             applicationId: '',
@@ -337,7 +335,42 @@ export default {
                 }
             });
         },
+        /**
+         * [application() ]
+         * [ps: 申请分销 ]
+         * [-------------------------------------------------]
+         */
+        application () {
+            const _this = this;
+            _this.$ajax('get', detail.ssohelper).then(result => {
+                if (result.islogin === '0') {
+                    window.location.href = 'https://mlogin.hc360.com/login.html?flag=m&ReturnURL=' + window.location.href;
+                } else {
+                    let { prodimage, prodinfo, pcid, UUID } = _this;
+                    _this.$ajax('get', detail.distribut, {
+                        params: {
+                            pid: 2,
+                            pic: prodimage[0].name,
+                            title: prodinfo.name,
+                            openid: UUID
+                        }
+                    }).then(res => {
+                        let hint = ''
+                        switch (res) {
+                            case 0: hint = '申请成功'; break;
+                            case 1: hint = '已申请过，请勿重复申请'; break;
+                            case 2: hint = '系统异常'; break;
+                        };
+                        _this.$toast(hint);
+                    });
+                }
+            });
 
+
+            // let { prodimage, prodinfo, pcid, UUID } = _this;
+            // console.log(prodimage, prodinfo, pcid, UUID)
+
+        }
     },
     created () {
         let {id } = this.$route.params;

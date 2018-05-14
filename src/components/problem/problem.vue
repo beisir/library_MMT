@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="">
-        <header class="mHeaderBox"><a href="#" class="arrowLeft"></a><h3>常见问题</h3></header>
+        <Header title="常见问题" />
         <div class="problemsBox">
         	<ul>
             	<li>
@@ -36,6 +36,3 @@
 export default {
 }
 </script>
-
-<style lang="css">
-</style>

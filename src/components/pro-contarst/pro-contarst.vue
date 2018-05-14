@@ -19,7 +19,9 @@
                         </router-link>
                     </li>
                 </ul>
-                <a href="#" class="contrastAdd">添加产品</a>
+                <router-link
+                    class="contrastAdd"
+                    :to="{ name: 'search-list', params: {'catid':catId} }">添加产品</router-link>
             </div>
         </div>
         <button type="button" class="contrastBtn" @click="startContras">开始对比</button>
@@ -84,7 +86,6 @@ export default {
 
             let statusList = contrastList.filter(item => item.flag === true);
             if (statusList.length > 1) {
-                console.log(this.$router)
                 this.$router.push({
                     path: '/contrast-2',
                     query: {
