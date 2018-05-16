@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="contarast_page">
-        <Header title="常固M20" />
+        <Header title="对比结果" />
         <div class="contrastPro">
             <div class="contrastProTop">
                 <div class="vsCon">对比</div>

@@ -77,16 +77,12 @@ Vue.config.productionTip = false
 
 
 router.beforeEach((to, from, next) => {
-    if (!to.meta.requireAuth) {
+    let storeUUID = localStorage.getItem('UUID');
+    if (!storeUUID && !to.meta.requireAuth) {
         let createID = UUID();
-        next();
-        return false;
-    } else {
-        next();
-        return false;
     };
+    next();
 });
-
 
 new Vue({
     el: '#app',

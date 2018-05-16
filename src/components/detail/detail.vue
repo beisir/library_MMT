@@ -41,7 +41,6 @@
                 <div class="proTitle">{{prodinfo.name}}</div>
                 <div class="proPrice">
                     <span class="proPriceText">&yen;</span>3880.<span class="proPriceText">00</span>
-                    <!-- c产品对比暂时不上 -->
                     <a v-if="!isAdd" href="javascript:;" class="contrast" @click="addContrast">对比</a>
                     <a v-else @click="removeContrast">取消对比</a>
                 </div>
@@ -208,7 +207,7 @@
         </div>
         <router-link
             class="fixedBtnRig"
-            :to="{ name: 'proContarst', params: {catid: prodinfo.catId}}">{{ProdsNum}}</router-link>
+            :to="{ name: 'proContarst', params: {catid: prodinfo.catId}}">{{ProdsNum ? ProdsNum: 'VS'}}</router-link>
         <nativeShare :isShare="isShare" @closeShare="closeShare"></nativeShare>
     </div>
 </template>
@@ -229,7 +228,7 @@ export default {
             phoneNum: '010-xxxxxxxx',
             applicationId: '',
             isShare: false,
-            isShareHide: true,
+            isShareHide: false,
             UUID: '',
             ProdsNum: 'VS',
             isAdd: true
@@ -239,7 +238,6 @@ export default {
     methods: {
         handleChange (index) {
             this.activeIndex = index;
-            console.log(options)
         },
         shareFn () {
             this.isShare = true;
@@ -365,11 +363,6 @@ export default {
                     });
                 }
             });
-
-
-            // let { prodimage, prodinfo, pcid, UUID } = _this;
-            // console.log(prodimage, prodinfo, pcid, UUID)
-
         }
     },
     created () {
@@ -388,7 +381,7 @@ export default {
             _this.contrastNum(prodinfo.catId, id);
 
         });
-        // _this.browserIdenty();
+        _this.browserIdenty();
     },
     components: {
         nativeShare

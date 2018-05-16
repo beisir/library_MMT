@@ -3,8 +3,8 @@
         <ul>
             <router-link
                 v-for="(item, index) in searchList"
-                :to="{ name: 'detail', params: {id: item.id} }"
-                :key="item.id" tag="li">
+                :to="{ name: 'detail', params: {id: item.productInfo.id} }"
+                :key="index" tag="li">
                 <div class="proImgCon">
                     <a href="javascript:;">
                         <img class="proImg" v-lazy="item.name">
@@ -46,7 +46,7 @@ export default {
     methods: {
         number(value) {
             let toFixedNum = Number(value).toFixed(2);
-            let realVal = toFixedNum.substring(0, toFixedNum.toString().length - 1).split('.');
+            let realVal = toFixedNum.split('.');
             return `&yen;<span class="allprice">${realVal[0]}.</span>${realVal[1]}`;
         }
     },

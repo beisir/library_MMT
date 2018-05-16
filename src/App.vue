@@ -32,6 +32,10 @@ export default {
 </script>
 
 <style>
+html, body ,.Router{
+    height: 100%;
+    width: 100%;
+}
 /* @import 'http://192.168.120.32/css/cpk/cpkStyle.css'; */
 /* @import './cpkStyle.css'; */
 /* @import './assets/css/cpkStyle.css'; */

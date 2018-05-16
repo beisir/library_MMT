@@ -5,13 +5,13 @@
                 <a href="#"><img class="logoImg" src='https://style.org.hc360.com/images/microMall/program/mGrayLogo.png'></a>
             </div>
             <h3 class='signName'>{{usersession.corname}}</h3>
-            <p class='signClass' @click="aniStyle=true">实体店主</p>
+            <p class='signClass' @click="aniStyle=true">{{shopName}}</p>
         </div>
         <div class="serviceBox">
         	<ul>
             	<router-link
                     v-for="(item, index) in manage_arr"
-                    :to="{ name: item.url, params: {} }"
+                    :to="{ name: item.url}"
                     :key="item.text"
                     tag="li">
                     <em :class="item.icon"></em>
@@ -24,7 +24,7 @@
             @click="aniStyle=false">
             <div :class="['signClassCon', aniStyle ? 'slideup': 'slidedown']">
                 <ul>
-                    <li v-for="(item, index) in shopkeeper" @click.stop="selectShop">{{item}}</li>
+                    <li v-for="(item, index) in shopkeeper" @click.stop="selectShop(index)">{{item}}</li>
                 </ul>
             <button type="button" class="signClassBtn">取消</button>
             </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { detail } from '../../common/config.js';
+import { detail, manage } from '../../common/config.js';
 export default {
     data () {
         return {
@@ -63,7 +63,8 @@ export default {
                 }
             ],
             aniStyle: false,
-            shopkeeper: [1,2,3,4,5,6,7,8]
+            shopName: '实体店店主',
+            shopkeeper: ['实体店店主', '微商店主', '国内电商', '跨境电商', '贸易公司', '生产加工企业', '其他']
         }
     },
     beforeRouteEnter (to, from, next) {
@@ -77,12 +78,38 @@ export default {
             });
         });
     },
+    created () {
+        const _this = this;
+        let UUID = localStorage.getItem('UUID');
+        _this.$ajax('get', manage.getUser, {
+            params: {
+                openid: UUID
+            }
+        }).then(result => {
+            if (String(result) !== '') {
+                _this.shopName = _this.shopkeeper[result]
+            };
+        });
+    },
     methods: {
-        catchClickFn () {
-            this.aniStyle = true;
-        },
-        selectShop () {
-            console.log(666666)
+        selectShop (index) {
+            let shopkeeper = this.shopkeeper;
+            const _this = this;
+            let UUID = localStorage.getItem('UUID');
+            this.$ajax('get', manage.addUser, {
+                params: {
+                    openid: UUID,
+                    ui: index
+                }
+            }).then(result => {
+                if (result){
+                    _this.$toast('修改成功');
+                } else {
+                    _this.$toast('修改失败');
+                };
+                _this.shopName = shopkeeper[index];
+                _this.aniStyle = false;
+            });
         }
     }
 }

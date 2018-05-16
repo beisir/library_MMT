@@ -132,21 +132,16 @@ export default {
             ispullup: false
         }
     },
-    computed: {
-        swiper() {
-            return this.$refs.mySwiper.swiper
-        }
-    },
     methods: {
         handleChange (index) {
             this.activeIndex = index;
         },
         getSearchList (pageNo = 1) {
             const _this = this;
-            let searchList = _this.searchList;
             _this.loading = true;
             _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {
                 if (options.content.length) {
+                    let searchList = _this.searchList;
                     _this.loading = false;
                     _this.searchList = searchList.concat(options.content);
                 } else {
