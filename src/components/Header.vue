@@ -1,7 +1,7 @@
 <template lang="html">
     <div>
         <header class="mHeaderBox">
-            <a href="javascript:history.go(-1);" class="arrowLeft"></a>
+            <a @click="goBackPage" class="arrowLeft"></a>
             <h3>{{title}}</h3>
         </header>
     </div>
@@ -15,6 +15,12 @@
                 default: '产品库',
                 type: String
             }
+        },
+        methods: {
+            goBackPage () {
+                this.$router.isBack = false;
+                this.$router.go(-1);
+            }
         }
-    }
+    };
 </script>

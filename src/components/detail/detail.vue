@@ -50,7 +50,7 @@
 
         <div class="detailBox" v-if="Object.keys(prodatt).length">
             <div class="detailTit">常固M20详细参数</div>
-            <div class="parameterBoxCon">
+            <div class="parameterBoxCon" style="padding-bottom: 1rem;">
                 <div class="parameterListCon" v-for="(prodattItem, prodattKey) in prodatt">
                     <div class="parameterLeft"><h6>{{prodattKey}}</h6></div>
                     <div class="parameterRig">

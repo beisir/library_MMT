@@ -14,7 +14,30 @@
                 </div>
             </div>
         </div>
+
         <div class="detailBox_wrapper">
+            <div class="detailBox"
+                v-for="(vsItem, vsKey) in categoryAttPram" :key="vsItem.group">
+                <div class="detailTit">{{vsItem.group}}</div>
+                <div class="parameterBoxCon">
+                    <ul>
+                        <li v-for="(vschild, vschildKey) in vsItem.catparam" :key="vschildKey">
+                            <h3 class="parameterLeft">{{vschild.paraname}}</h3>
+                            <div class="parameterRig">
+                                <div class="parameterList">
+                                    <p v-for="(typeItem, typeIndex) in vschild.paravalues"
+                                        :style="{'color': vschild.paravalues[0] === vschild.paravalues[1] ? '#000': 'red'}"
+                                        :class="!typeIndex ? 'pLeft': 'pRig'"
+                                        :key="typeIndex">{{typeItem}}</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="detailBox_wrapper">
             <div class="detailBox"
                 v-for="(vsItem, vsKey) in vsObj" :key="vsKey">
                 <div class="detailTit">{{vsKey}}</div>
@@ -33,7 +56,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -67,35 +90,35 @@ export default {
                 }
             }).then(result => {
                 if (result) {
-                    _this.filterParams(result);
+                    // console.log(result);
                     _this.categoryAttPram = result.categoryAttPram;
                     _this.productWithAtt = result.productWithAtt;
                 }
 
             });
-        },
-        filterParams ({ categoryAttPram, productWithAtt}) {
-            let obj = {};
-            let paramsIndex = {}
-            categoryAttPram.forEach((item, index) => {
-                paramsIndex[item.groupName] = index;
-                obj[item.groupName] = {};
-                item.params.forEach((val, ind) => {
-                   obj[item.groupName][val.name] = new Array(2);
-                });
-            });
-            productWithAtt.forEach((attItem, attIndex) => {
-                attItem.attvalues.forEach((valItem, valIndex) => {
-                    let keyItem = Object.keys(obj[valItem.attGroup]);
-                    if (keyItem.indexOf(valItem.attName) === -1){
-                        obj[valItem.attGroup][valItem.attName] = new Array(2);
-                    };
-                    obj[valItem.attGroup][valItem.attName][attIndex] = valItem.attValue;
-                });
-            });
-            this.vsObj = obj;
-            this.paramsIndex = paramsIndex;
-        },
+        }
+        // ,filterParams ({ categoryAttPram, productWithAtt}) {
+        //     let obj = {};
+        //     let paramsIndex = {}
+        //     categoryAttPram.forEach((item, index) => {
+        //         paramsIndex[item.groupName] = index;
+        //         obj[item.groupName] = {};
+        //         item.params.forEach((val, ind) => {
+        //            obj[item.groupName][val.name] = new Array(2);
+        //         });
+        //     });
+        //     productWithAtt.forEach((attItem, attIndex) => {
+        //         attItem.attvalues.forEach((valItem, valIndex) => {
+        //             let keyItem = Object.keys(obj[valItem.attGroup]);
+        //             if (keyItem.indexOf(valItem.attName) === -1){
+        //                 obj[valItem.attGroup][valItem.attName] = new Array(2);
+        //             };
+        //             obj[valItem.attGroup][valItem.attName][attIndex] = valItem.attValue;
+        //         });
+        //     });
+        //     this.vsObj = obj;
+        //     this.paramsIndex = paramsIndex;
+        // },
     }
 
 
