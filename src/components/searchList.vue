@@ -7,7 +7,7 @@
                 :key="index" tag="li">
                 <div class="proImgCon">
                     <a href="javascript:;">
-                        <img class="proImg" v-lazy="item.name">
+                        <img class="proImg" :src="item.name" @error="imgError(index)" />
                     </a>
                 </div>
                 <p class="protil">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {errImg} from '../common/config.js';
 export default {
     name: 'SearchList',
     props: {
@@ -41,17 +42,20 @@ export default {
         },
         loading: {
             type: Boolean
+        },
+        errImg: {
+            default: errImg
         }
     },
     methods: {
+        imgError (index) {
+            this.searchList[index].name = errImg;
+        },
         number(value) {
             let toFixedNum = Number(value).toFixed(2);
             let realVal = toFixedNum.split('.');
             return `&yen;<span class="allprice">${realVal[0]}.</span>${realVal[1]}`;
         }
-    },
-    mounted () {
-        // alert(this.ispullup)
     }
 }
 </script>

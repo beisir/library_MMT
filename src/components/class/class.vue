@@ -6,14 +6,16 @@
                     v-for="(item, index) in asideTtile"
                     :key="item.supcatname"
                     :class="index === asideCur? 'classCur': ''"
-                    @click="selectAside(index, item.supcatid)"
-                    >{{item.supcatname}}</li>
+                    @click="selectAside(index, item.productCategory.supcatid)"
+                    >{{item.productCategory.supcatname}}</li>
             </ul>
         </div>
-        <div class="classRig">
-            <div class="classRigCon">
+        <div class="classRig" v-if="asideTtile.length">
+            <div class="classRigCon"
+                v-for="(secondItem, secondIndex) in asideTtile[asideCur].secondCategory"
+                :key="secondItem.productCategory.supcatname">
                 <div class="classRigTitCon">
-                    <h3 class="classRigTit">{{title}}</h3>
+                    <h3 class="classRigTit">{{secondItem.productCategory.supcatname}}</h3>
                     <router-link
                         class="classRigMore"
                         :to="{ name: 'search-list', params: {supcatid: title_supid} }"
@@ -22,15 +24,15 @@
                 <div class="classRigBot">
                     <router-link
                         class="classLink"
-                        v-for="classItem in contentArr"
-                        :key="classItem.supcatname"
+                        v-for="(threeItem, threeIndex) in secondItem.thirdProductCategory"
+                        :key="threeIndex"
                         :to="{name: 'search-list', params: {
-                            bcid: classItem.catid,
-                            key: classItem.supcatname
+                            bcid: threeItem.catid,
+                            key: threeItem.supcatname
                         }}">
                         <a href="javascript:;">
-                            <img :src="classItem.catLogo" />
-                            <p>{{classItem.supcatname}}</p>
+                            <img :src="threeItem.catLogo" />
+                            <p>{{threeItem.supcatname}}</p>
                         </a>
                     </router-link>
                 </div>
@@ -53,16 +55,11 @@ export default {
     },
     created () {
         const _this = this;
-        _this.getLevelMenu('001').then(list => {
+        _this.getLevelMenu('').then(list => {
             if (list && list.length) {
-                    _this.asideTtile = list;
-                _this.getLevelMenu(list[0].supcatid, true).then(result => {
-                    _this.contentArr = result;
-                    _this.title = list[0].supcatname;
-                    _this.title_supid = list[0].supcatid;
-                });
+                _this.asideTtile = list;
             };
-        })
+        });
     },
     methods: {
         getLevelMenu (params, isLoading) {
@@ -75,12 +72,9 @@ export default {
         selectAside (index, supcatid) {
             const _this = this;
             let title = this.title;
-            _this.getLevelMenu(supcatid).then(list => {
-                _this.contentArr = list;
-                _this.title = title;
-                _this.asideCur = index;   // 侧边栏tabIndexdex;
-                _this.title_supid = supcatid   //
-            }); // 右边content数据列表
+
+            _this.asideCur = index;   // 侧边栏tabIndexdex;
+            _this.title_supid = supcatid;  //
         }
     }
 }
