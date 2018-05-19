@@ -18,12 +18,13 @@
                     <h3 class="classRigTit">{{secondItem.productCategory.supcatname}}</h3>
                     <router-link
                         class="classRigMore"
-                        :to="{ name: 'search-list', params: {supcatid: title_supid} }"
+                        :to="{ name: 'search-list', params: {supcatid: secondItem.productCategory.supcatid} }"
                         >所有产品</router-link>
                 </div>
                 <div class="classRigBot">
                     <router-link
                         class="classLink"
+                        tag="div"
                         v-for="(threeItem, threeIndex) in secondItem.thirdProductCategory"
                         :key="threeIndex"
                         :to="{name: 'search-list', params: {
@@ -43,16 +44,16 @@
 
 <script>
 import {classy} from '../../common/config.js';
+import {mapGetters, mapMutations} from 'vuex';
 export default {
     data () {
         return {
             title: '',      // 显示所有产品右侧的标题文字
-            title_supid: '',// 所有产品的商机id
-            asideCur: 0,    // 侧边栏tabIndex
             asideTtile: [], // 侧边栏数据列表
             contentArr: []  // 右边content数据列表
         }
     },
+    computed: mapGetters(['asideCur']),
     created () {
         const _this = this;
         _this.getLevelMenu('').then(list => {
@@ -72,10 +73,9 @@ export default {
         selectAside (index, supcatid) {
             const _this = this;
             let title = this.title;
-
-            _this.asideCur = index;   // 侧边栏tabIndexdex;
-            _this.title_supid = supcatid;  //
-        }
+            _this.saveAsideCur(index);
+        },
+        ...mapMutations(['saveAsideCur'])
     }
 }
 </script>

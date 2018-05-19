@@ -40,7 +40,10 @@
             <div class="proTitLeft">
                 <div class="proTitle">{{prodinfo.name}}</div>
                 <div class="proPrice">
-                    <span class="proPriceText">&yen;</span>3880.<span class="proPriceText">00</span>
+                    <span v-if="prodinfo.price > 0">
+                        <span class="proPriceText">&yen;</span>{{number(prodinfo.price, 0)}}.<span class="proPriceText">{{number(prodinfo.price, 1)}}</span>
+                    </span>
+                    <span v-else class="proPriceText">价格面议</span>
                     <a v-if="!isAdd" href="javascript:;" class="contrast" @click="addContrast">对比</a>
                     <a v-else @click="removeContrast">取消对比</a>
                 </div>
@@ -236,6 +239,11 @@ export default {
         }
     },
     methods: {
+        number(value, index) {
+            let toFixedNum = Number(value).toFixed(2);
+            let realVal = toFixedNum.split('.');
+            return realVal[index];
+        },
         handleChange (index) {
             this.activeIndex = index;
         },
@@ -347,7 +355,7 @@ export default {
                     let { prodimage, prodinfo, pcid, UUID } = _this;
                     _this.$ajax('get', detail.distribut, {
                         params: {
-                            pid: 2,
+                            pid: prodinfo.id,
                             pic: prodimage[0].name,
                             title: prodinfo.name,
                             openid: UUID

@@ -36,7 +36,7 @@
                         </a>
                     </swiper-slide>
                 </swiper> -->
-                <div class="scrollIco" style="z-index:10000">
+                <div v-if="swiperImgList.length > 1" class="scrollIco" style="z-index:10000">
                     <em
                         v-for="(actived, activedIndex) in swiperImgList"
                         :class="{'cur': activedIndex === activeIndex}"></em>
@@ -97,14 +97,14 @@ export default {
             activeIndex: 0,
             swiperImgList: [
                 {
-                    path: '//www.hc360.com/zt/cpk/index-m.html',
-                    src: '//img.hb.aicdn.com/ebe8e04ea9fff0e46efcdfe1f7db2ed432f64b2113864-BVea0b_fw658'
+                    path: 'https://www.hc360.com/zt/cpk/index.html',
+                    src: 'https://style.org.hc360.com/images/prod/banner1.jpg'
                 }, {
-                    path: '//m.hc360.com/supplyself/448122348.html',
-                    src: '//img.hb.aicdn.com/ebe8e04ea9fff0e46efcdfe1f7db2ed432f64b2113864-BVea0b_fw658'
+                    path: '/mprod/detail/2',
+                    src: 'https://style.org.hc360.com/images/prod/banner2.jpg'
                 }, {
-                    path: '//m.hc360.com/supplyself/448151108.html',
-                    src: '//img.hb.aicdn.com/ebe8e04ea9fff0e46efcdfe1f7db2ed432f64b2113864-BVea0b_fw658'
+                    path: '/mprod/detail/5',
+                    src: 'https://style.org.hc360.com/images/prod/banner3.jpg'
                 }
             ],
             navTitle: [
@@ -127,7 +127,7 @@ export default {
                 }
             ],
             searchList: [],
-            pageNo: 1,
+            pageNo: 0,
             loading: false,
             ispullup: false
         }
@@ -136,7 +136,7 @@ export default {
         handleChange (index) {
             this.activeIndex = index;
         },
-        getSearchList (pageNo = 1) {
+        getSearchList (pageNo = 0) {
             const _this = this;
             _this.loading = true;
             _this.$ajax('get', index_page.prodbytime + pageNo).then(options => {

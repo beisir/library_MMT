@@ -32,12 +32,11 @@ module.exports = {
     },
     contrast2: {
         productWithAtts: `${hostname}/findProductWithAttsnew`
-        // productWithAtts: `${hostname}/findProductWithAtts`
     },
     manage: {
         addUser: `${hostname}/addUseridentity`,
         getUser: `${hostname}/getUseridentity`
     },
-    errImg: 'https://style.org.hc360.com/images/microMall/program/proGimg.png'
+    errImg: 'https://style.org.hc360.com/images/cpk/pc/nImg.png'
 
 }

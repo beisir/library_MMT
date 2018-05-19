@@ -8,12 +8,14 @@
                 <div class="proImgCon">
                     <a href="javascript:;">
                         <img class="proImg" :src="item.name" @error="imgError(index)" />
+                        <!-- @error="imgError(index)" -->
                     </a>
                 </div>
                 <p class="protil">
                     <a href="javascript:;">{{item.productInfo.name}}</a>
                 </p>
-                <p class="price" v-html="number(item.productInfo.price)"></p>
+                <p v-if="item.productInfo.price > 0" class="price" v-html="number(item.productInfo.price)"></p>
+                <p v-else class="price">价格面议</p>
             </router-link>
         </ul>
 

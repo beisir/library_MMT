@@ -34,20 +34,20 @@ export default {
         return {
             keyword: '',
             searchList: [],
-            pageNo: 1,
+            pageNo: 0,
             isPullDown: false,
             ispath: '',
             prodbycat_path: '',
             prodbytitle_path: '',
             prodbysupid_path: '',
             byCatid_path: '',
-            pageNo: 1,
             loading: false,
             ispullup: false
         }
     },
     created () {
         let params = this.$route.params;
+        console.log(params)
         if (Object.keys(params).length) {
             this.updateParams(params);
         } else {
@@ -62,7 +62,7 @@ export default {
     methods: {
         enterEvent (val) {
             if (val !== '') {
-                this.pageNo = 1;
+                this.pageNo = 0;
                 this.ispullup = false;
                 this.searchList = [];
                 this.judgmentPath({key: val});
@@ -85,7 +85,7 @@ export default {
                     url = `${prodbysupid_path}${pageNo}`
                 } else if (bcid) {
                     ispath = 'prodbycat';
-                    prodbycat_path = `${search_listPath.prodbycat}&catid=${'100000000'}&pageNo=`
+                    prodbycat_path = `${search_listPath.prodbycat}&catid=${bcid}&pageNo=`
                     url = `${prodbycat_path}${pageNo}`;
                 } else if (catid) {
                     ispath = 'catidpath';
@@ -138,6 +138,3 @@ export default {
     }
 }
 </script>
-
-<style lang="css">
-</style>
