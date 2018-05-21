@@ -11,7 +11,7 @@
         	<ul>
             	<router-link
                     v-for="(item, index) in manage_arr"
-                    :to="{ name: item.url}"
+                    :to="{ name: item.url, params: {username: usersession.username}}"
                     :key="item.text"
                     tag="li">
                     <em :class="item.icon"></em>
@@ -74,31 +74,32 @@ export default {
                     window.location.href = 'https://mlogin.hc360.com/login.html?flag=m&ReturnURL=' + window.location.href;
                 } else {
                     vm.usersession = res.usersession;
+                    vm.getShopkeeper(vm.usersession.username);
                 }
             });
         });
     },
-    created () {
-        const _this = this;
-        let UUID = localStorage.getItem('UUID');
-        _this.$ajax('get', manage.getUser, {
-            params: {
-                openid: UUID
-            }
-        }).then(result => {
-            if (String(result) !== '') {
-                _this.shopName = _this.shopkeeper[result]
-            };
-        });
-    },
+
     methods: {
+        getShopkeeper (username) {
+            const _this = this;
+            _this.$ajax('get', manage.getUser, {
+                params: {
+                    openid: username
+                }
+            }).then(result => {
+                if (String(result) !== '') {
+                    _this.shopName = _this.shopkeeper[result]
+                };
+            });
+        },
         selectShop (index) {
             let shopkeeper = this.shopkeeper;
-            const _this = this;
-            let UUID = localStorage.getItem('UUID');
+            const _this = this,
+                username = this.usersession.username;
             this.$ajax('get', manage.addUser, {
                 params: {
-                    openid: UUID,
+                    openid: username,
                     ui: index
                 }
             }).then(result => {

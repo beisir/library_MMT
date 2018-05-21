@@ -48,7 +48,10 @@
         <div class="navBox">
             <ul>
                 <li class="navTit" v-for="navTit in navTitle">
-                    <router-link :to="{ name: '', params: {} }" :key="navTit.icon">
+                    <router-link :to="{ name: navTit.path, params: {
+                        bcid: navTit.catid,
+                        key: navTit.text
+                    }}" :key="navTit.icon">
                         <em :class="navTit.icon"></em><p>{{navTit.text}}</p>
                     </router-link>
                 </li>
@@ -110,20 +113,24 @@ export default {
             navTitle: [
                 {
                     icon: 'ico1',
-                    text: '装修建材',
-                    path: ''
+                    text: '电梯',
+                    path: 'search-list',
+                    catid: 100000005
                 }, {
                     icon: 'ico2',
-                    text: '五金工具',
-                    path: ''
+                    text: '吊顶',
+                    path: 'search-list',
+                    catid: 100000006
                 }, {
                     icon: 'ico3',
-                    text: '建筑保温',
-                    path: ''
+                    text: '螺栓',
+                    path: 'search-list',
+                    catid: 100000003
                 }, {
                     icon: 'ico4',
-                    text: '管材管件',
-                    path: ''
+                    text: '螺母',
+                    path: 'search-list',
+                    catid: 100000004
                 }
             ],
             searchList: [],

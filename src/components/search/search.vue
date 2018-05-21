@@ -10,7 +10,7 @@
                     :autofocus="true"
                     v-model="key_word" @keyup.enter="eventEnter(key_word)"/>
             </div>
-            <button type="button" class="cancelBtn">取消</button>
+            <button type="button" class="cancelBtn" @click="$router.go(-1);">取消</button>
         </div>
 
         <div class="seaHistory" v-if="histor_word.length">

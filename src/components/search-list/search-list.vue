@@ -47,7 +47,7 @@ export default {
     },
     created () {
         let params = this.$route.params;
-        console.log(params)
+        // console.log(params)
         if (Object.keys(params).length) {
             this.updateParams(params);
         } else {

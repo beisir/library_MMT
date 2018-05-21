@@ -352,18 +352,18 @@ export default {
                 if (result.islogin === '0') {
                     window.location.href = 'https://mlogin.hc360.com/login.html?flag=m&ReturnURL=' + window.location.href;
                 } else {
-                    let { prodimage, prodinfo, pcid, UUID } = _this;
+                    let { prodimage, prodinfo, pcid } = _this;
                     _this.$ajax('get', detail.distribut, {
                         params: {
                             pid: prodinfo.id,
                             pic: prodimage[0].name,
                             title: prodinfo.name,
-                            openid: UUID
+                            openid: result.usersession.username
                         }
                     }).then(res => {
                         let hint = ''
                         switch (res) {
-                            case 0: hint = '申请成功'; break;
+                            case 0: hint = '您的申请已经提交成功,请等待厂商和您联系'; break;
                             case 1: hint = '已申请过，请勿重复申请'; break;
                             case 2: hint = '系统异常'; break;
                         };

@@ -7,7 +7,9 @@
                 <div class="contrastProRig">
                     <div v-for="(item, index) in productWithAtt" :class="index ? 'pro1': 'pro2'">
                         <div class="pro1Img">
-                            <img :src="item.imgs[0].name" />
+                            <span>
+                                <img :src="item.imgs[0].name" />
+                            </span>
                         </div>
                         <p class="proName">{{item.name}}</p>
                     </div>

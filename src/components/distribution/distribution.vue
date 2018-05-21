@@ -36,12 +36,12 @@ export default {
         }
     },
     created () {
-        const UUID = localStorage.getItem('UUID');
+        const {username} = this.$route.params;
         const _this = this;
         this.$ajax('get', distribution.getByOpenid, {
             params: {
                 page: 1,
-                openid: UUID
+                openid: username
             }
         }).then(result => {
             if (result && result.length){
