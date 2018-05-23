@@ -92,9 +92,10 @@ export default {
                     byCatid_path = `${search_listPath.byCatid}&catid=${catid}&pageNo=`
                     url = `${byCatid_path}${pageNo}`;
                 } else {
+                    this.pageNo = 1;
                     ispath = 'prodbytitle';
                     prodbytitle_path = `${search_listPath.prodbytitle}&`
-                    url = `${prodbytitle_path}title=${encodeURIComponent(key)}&pageNo=${pageNo}`;
+                    url = `${prodbytitle_path}title=${encodeURIComponent(key)}&pageNo=${this.pageNo}`;
                 };
                 this.keyword = key || '';
                 this.ispath = ispath;

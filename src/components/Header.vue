@@ -12,7 +12,7 @@
         name: 'Header',
         props: {
             title: {
-                default: '产品库',
+                default: '慧聪产品库',
                 type: String
             }
         },

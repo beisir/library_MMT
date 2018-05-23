@@ -81,7 +81,7 @@ export default [
     },
     {
         name:'distribution',
-        path:'/distribution',
+        path:'/distribution/:username',
         meta: {
             requireAuth: true
         },

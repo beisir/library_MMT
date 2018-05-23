@@ -3,7 +3,7 @@
         <!-- <transition name="component-fade" mode="out-in"> -->
         <!--     <router-view/>
         </transition> -->
-        <transition :name="transitionName">
+        <transition name="component-fade" mode="out-in">
             <router-view class="Router" />
 　　　　</transition>
     </div>
@@ -11,23 +11,23 @@
 
 <script>
 export default {
-    name: 'App',
-    data () {
-        return  {
-            transitionName: 'slide-right'
-        }
-    },
-    watch: {
-        '$route' (to, from) {
-            let isBack = this.$router.isBack  //  监听路由变化时的状态为前进还是后退
-            if(isBack) {
-                this.transitionName = 'slide-right';
-            } else {
-                this.transitionName = 'slide-left';
-            };
-            this.$router.isBack = true;
-        }
-    }
+    // name: 'App',
+    // data () {
+    //     return  {
+    //         transitionName: 'slide-right'
+    //     }
+    // },
+    // watch: {
+    //     '$route' (to, from) {
+    //         let isBack = this.$router.isBack  //  监听路由变化时的状态为前进还是后退
+    //         if(isBack) {
+    //             this.transitionName = 'slide-right';
+    //         } else {
+    //             this.transitionName = 'slide-left';
+    //         };
+    //         this.$router.isBack = true;
+    //     }
+    // }
 }
 </script>
 
@@ -40,7 +40,7 @@ html, body ,.Router{
 /* @import './cpkStyle.css'; */
 /* @import './assets/css/cpkStyle.css'; */
 .component-fade-enter-active, .component-fade-leave-active {
-    transition: opacity .3s ;
+    transition: opacity .2s ;
 }
 .component-fade-enter, .component-fade-leave-to{
     opacity: 0;
@@ -48,7 +48,7 @@ html, body ,.Router{
 
 .Router {
     width: 100%;
-    transition: all .6s ease;
+    /* transition: all .6s ease; */
     position: absolute;
     width: 100%;
     top: 0;
