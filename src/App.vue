@@ -5,7 +5,17 @@
         </transition> -->
         <transition name="component-fade" mode="out-in">
             <router-view class="Router" />
-　　　　</transition>
+        </transition>
+
+        <!-- <transition name="component-fade" mode="out-in">
+            <keep-alive>
+                <router-view v-if="$route.meta.keepAlive" />
+            </keep-alive>
+        </transition>
+        <transition name="component-fade" mode="out-in">
+            <router-view v-if="!$route.meta.keepAlive" />
+        </transition> -->
+
     </div>
 </template>
 

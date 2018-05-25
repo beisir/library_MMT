@@ -31,6 +31,7 @@
 <script>
 import { pro_contrast } from '../../common/config.js';
 export default {
+    name: 'proContarst',
     data () {
         return {
             openid: '',
@@ -83,9 +84,8 @@ export default {
          */
         startContras () {
             let { contrastList, catId } = this;
-
             let statusList = contrastList.filter(item => item.flag === true);
-            if (statusList.length > 1) {
+            if (statusList.length === 2) {
                 this.$router.push({
                     path: '/contrast-2',
                     query: {
@@ -94,7 +94,7 @@ export default {
                     }
                 });
             } else {
-                this.$toast('至少选择两项');
+                this.$toast('请选择两项进行对比');
             }
         }
     }

@@ -53,8 +53,12 @@
 
         <div class="detailBox" v-if="Object.keys(prodatt).length">
             <div class="detailTit">常固M20详细参数</div>
-            <div class="parameterBoxCon" style="padding-bottom: 1rem;">
-                <div class="parameterListCon" v-for="(prodattItem, prodattKey) in prodatt">
+            <div class="parameterListBox" style="padding-bottom:1rem;">
+                <div class="parameterBoxCon" :style="{
+                    'overflow': 'hidden',
+                    'height': count > 5 ? '4.3rem' : 'auto'
+                    }">
+                    <div class="parameterListCon" v-for="(prodattItem, prodattKey) in prodatt">
                     <div class="parameterLeft"><h6>{{prodattKey}}</h6></div>
                     <div class="parameterRig">
                     	<ul>
@@ -65,6 +69,8 @@
                         </ul>
                     </div>
                 </div>
+                </div>
+                <a v-if="count > 5" href="javascript:;" class="moreBtn" @click="count = 0">更多参数</a>
             </div>
         </div>
 
@@ -234,8 +240,8 @@ export default {
             isShareHide: false,
             UUID: '',
             ProdsNum: 'VS',
-            isAdd: true
-
+            isAdd: true,
+            count: 0
         }
     },
     methods: {
@@ -379,13 +385,14 @@ export default {
         const _this = this;
         _this.$ajax('get', detail.prodinfo, {
             params: {id: id}
-        }).then(({prodatt, prodimage, prodinfo, mfbo}) => {
+        }).then(({prodatt, prodimage, prodinfo, mfbo, count}) => {
             _this.prodatt = prodatt || {};
             _this.prodimage = prodimage || [];
             _this.prodinfo = prodinfo || {};
             _this.phoneNum = (mfbo && mfbo.tel) || '';
             _this.applicationId = (mfbo && mfbo.id) || '';
             _this.pcid = 1;
+            _this.count = count;
             _this.contrastNum(prodinfo.catId, id);
 
         });

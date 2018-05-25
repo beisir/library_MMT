@@ -5,5 +5,13 @@ export default {
     },
     saveAsideCur (state, params) {
         state.asideCur = params;
+    },
+
+    // proContarst路由组件存储选择状态
+    upDateStatusCatid (state, params) {
+        state.statusCatid = params;
+    },
+    upDateStatusList (state, params) {
+        state.statusList = params;
     }
 }
