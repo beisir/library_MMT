@@ -20,14 +20,9 @@ export default {
     props: {
         isShare: {
             type: Boolean
-        }
-    },
-    data () {
-        return {
-            config : {
-                url: "https://m.hc360.com/b2b/",
-                title: 'hello word'
-            }
+        },
+        config: {
+            type: Object
         }
     },
     mounted () {

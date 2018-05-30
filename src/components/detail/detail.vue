@@ -217,7 +217,7 @@
         <router-link
             class="fixedBtnRig"
             :to="{ name: 'proContarst', params: {catid: prodinfo.catId}}">{{ProdsNum ? ProdsNum: 'VS'}}</router-link>
-        <nativeShare :isShare="isShare" @closeShare="closeShare"></nativeShare>
+        <nativeShare :isShare="isShare" :config="shareConfig" @closeShare="closeShare"></nativeShare>
     </div>
 </template>
 
@@ -241,7 +241,11 @@ export default {
             UUID: '',
             ProdsNum: 'VS',
             isAdd: true,
-            count: 0
+            count: 0,
+            shareConfig: {
+                title: '产品库',
+                url: window.location.href
+            }
         }
     },
     methods: {
@@ -394,7 +398,7 @@ export default {
             _this.pcid = 1;
             _this.count = count;
             _this.contrastNum(prodinfo.catId, id);
-
+            _this.shareConfig.title = prodinfo.name
         });
         _this.browserIdenty();
     },
