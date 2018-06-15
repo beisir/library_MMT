@@ -37,6 +37,10 @@ module.exports = {
         addUser: `${hostname}/addUseridentity`,
         getUser: `${hostname}/getUseridentity`
     },
+    news: {
+        getinfoCMS: `${hostname}/getinfoCMS?prodid=`,
+        getinfo: `${hostname}/getinfo/?pagesize=30`
+    },
     errImg: 'https://style.org.hc360.com/images/cpk/pc/nImg.png'
 
 }

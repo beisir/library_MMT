@@ -3,14 +3,7 @@
         <Header title="产品综述" />
 
         <!-- tab切换 暂时没有 -->
-        <!-- <div class="tabTitBox">
-        	<ul>
-            	<li class="cur">综述</li>
-                <li>报价</li>
-                <li>资讯</li>
-                <li>问答</li>
-            </ul>
-        </div> -->
+        <pageTitle :keyword="prodinfo.name" :id="id"></pageTitle>
 
         <!-- 轮播图功能 -->
         <div class="proImgBox">
@@ -51,9 +44,11 @@
             <button class="shareBox" @click="shareFn" v-if="isShareHide">分享</button>
         </div>
 
-        <div class="detailBox" v-if="Object.keys(prodatt).length">
+        <div class="detailBox"
+            v-if="Object.keys(prodatt).length"
+            :style="{'padding-bottom':productList.length ? '' : '1rem'}">
             <div class="detailTit">常固M20详细参数</div>
-            <div class="parameterListBox" style="padding-bottom:1rem;">
+            <div class="parameterListBox">
                 <div class="parameterBoxCon" :style="{
                     'overflow': 'hidden',
                     'height': count > 5 ? '4.3rem' : 'auto'
@@ -121,55 +116,23 @@
             </div>
         </div> -->
 
-        <!-- 相关资讯 本期不做 -->
-        <!-- <div class="detailBox">
-            <div class="detailTit">相关资讯</div>
+        <!-- 相关资讯-->
+        <div class="detailBox"
+            v-if="productList.length"
+            style="padding-bottom:1rem;">
+            <div class="detailTit">专业评测</div>
             <div class="newsListCon">
-                <ul>
-                    <li>
-                        <p class="newsName">
-                            <a href="#">【慧聪头条】奔驰召回产品 因前后桥螺栓损因前后桥螺栓损</a>
-                        </p>
-                        <p class="newsTime">2018-04-16  18:12:23</p>
-                        <div class="newsImg">
-                            <a href="#">
-                                <img src="https://style.org.hc360.com/images/microMall/program/aimg2.jpg" />
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="newsName">
-                            <a href="#">【慧聪头条】奔驰召回产品 因前后桥螺栓损因前后桥螺栓损</a>
-                        </p>
-                        <p class="newsTime">2018-04-16  18:12:23</p>
-                        <div class="newsImg">
-                            <a href="#">
-                                <img src="https://style.org.hc360.com/images/microMall/program/aimg2.jpg" />
-                            </a>
-                        </div>
-                    </li>
-                    <li>
-                        <p class="newsName">
-                            <a href="#">【慧聪头条】奔驰召回产品 因前后桥螺栓损因前后桥螺栓损</a>
-                        </p>
-                        <p class="newsTime">2018-04-16  18:12:23</p>
-                        <div class="newsImg">
-                            <a href="#">
-                                <img src="https://style.org.hc360.com/images/microMall/program/aimg2.jpg">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="noImg">
-                        <p class="newsName">
-                            <a href="#">【慧聪头条】奔驰召回产品 因前后桥螺栓损因前后桥螺栓损</a>
-                        </p>
-                        <p class="newsTime">2018-04-16  18:12:23</p>
-                    </li>
-                </ul>
-                <div class="moreBtn">更多资讯</div>
+                <consultation :productList="productList"></consultation>
+                <router-link
+                    class="moreBtn"
+                    tag="div"
+                    :to="{
+                        name: 'news',
+                        params: {id: id, keyword: prodinfo.name }
+                    }"
+                >更多评测</router-link>
             </div>
-        </div> -->
-
+        </div>
         <!-- 产品问答 -->
         <!-- <div class="detailBox">
             <div class="detailTit">产品问答<text class="askBtn">提问</text></div>
@@ -222,11 +185,15 @@
 </template>
 
 <script>
+import pageTitle from '../view/pageTitle.vue';
+import consultation from '../view/consultation.vue';
 import nativeShare from '../nativeShare.vue';
-import { detail } from '../../common/config.js';
+
+import { detail, news } from '../../common/config.js';
 export default {
     data () {
         return {
+            id: null,   // 页面id
             activeIndex: 0,
             prodatt: {},
             prodimage: [],
@@ -245,7 +212,9 @@ export default {
             shareConfig: {
                 title: '产品库',
                 url: window.location.href
-            }
+            },
+            // 咨询列表数据
+            productList: []
         }
     },
     methods: {
@@ -381,15 +350,13 @@ export default {
                     });
                 }
             });
-        }
-    },
-    created () {
-        let {id } = this.$route.params;
-        this.UUID = window.localStorage.getItem('UUID');
-        const _this = this;
-        _this.$ajax('get', detail.prodinfo, {
-            params: {id: id}
-        }).then(({prodatt, prodimage, prodinfo, mfbo, count}) => {
+        },
+        async httpRequest (id){
+            const _this = this;
+            // 装载页面新属性
+            let {prodatt, prodimage, prodinfo, mfbo, count} = await _this.$ajax('get', detail.prodinfo, {
+                    params: {id: id}
+                });
             _this.prodatt = prodatt || {};
             _this.prodimage = prodimage || [];
             _this.prodinfo = prodinfo || {};
@@ -397,13 +364,49 @@ export default {
             _this.applicationId = (mfbo && mfbo.id) || '';
             _this.pcid = 1;
             _this.count = count;
+            _this.shareConfig.title = prodinfo.name;
             _this.contrastNum(prodinfo.catId, id);
-            _this.shareConfig.title = prodinfo.name
-        });
+
+            let getinfoData = await _this.$ajax('get', news.getinfoCMS + id);
+                if (getinfoData.length > 3 && getinfoData !== ''){
+                    getinfoData = getinfoData.slice(3, getinfoData.length);
+                    _this.productList = getinfoData.length || []
+                } else {
+                    _this.productList = getinfoData;
+                    let result = await _this.$ajax('get', `${news.getinfo}&keyword=${prodinfo.name || ''}&page=${1}`);
+                    let productList = _this.productList;
+                    if (result && result.length){
+                        let list = result.splice(0, 3 - getinfoData.length);
+                        _this.productList = productList.concat(list)
+                    };
+                }
+        }
+    },
+    created () {
+        let {id } = this.$route.params;
+        this.UUID = window.localStorage.getItem('UUID');
+        const _this = this;
+        _this.id = id;
+        this.httpRequest(id)
+        // _this.$ajax('get', detail.prodinfo, {
+        //     params: {id: id}
+        // }).then(({prodatt, prodimage, prodinfo, mfbo, count}) => {
+        //     _this.prodatt = prodatt || {};
+        //     _this.prodimage = prodimage || [];
+        //     _this.prodinfo = prodinfo || {};
+        //     _this.phoneNum = (mfbo && mfbo.tel) || '';
+        //     _this.applicationId = (mfbo && mfbo.id) || '';
+        //     _this.pcid = 1;
+        //     _this.count = count;
+        //     _this.contrastNum(prodinfo.catId, id);
+        //     _this.shareConfig.title = prodinfo.name
+        // });
         _this.browserIdenty();
     },
     components: {
-        nativeShare
+        nativeShare,
+        pageTitle,
+        consultation
     }
 }
 </script>

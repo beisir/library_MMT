@@ -150,6 +150,18 @@ export default [
                 resolve(require('../components/search-list/search-list.vue'));
             });
         }
+    },
+    {
+        name:'news',
+        path:'/news/:id',
+        meta: {
+            requireAuth: true
+        },
+        component:resolve => {
+            require.ensure(['../components/news/news.vue'], () => {
+                resolve(require('../components/news/news.vue'));
+            });
+        }
     }
     // {
     //     name:'问答详情页面',
@@ -235,18 +247,7 @@ export default [
     //         });
     //     }
     // },
-    // {
-    //     name:'咨询页面',
-    //     path:'/news',
-    //     meta: {
-    //         requireAuth: true
-    //     },
-    //     component:resolve => {
-    //         require.ensure(['../components/news/news.vue'], () => {
-    //             resolve(require('../components/news/news.vue'));
-    //         });
-    //     }
-    // },
+
     // {
     //     name:'报价',
     //     path:'/quote',
